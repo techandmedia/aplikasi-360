@@ -1,0 +1,32 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Aplikasi 360 #
+# dependencies
+client-aplikasi-360/node_modules
+client-aplikasi-360/.pnp
+client-aplikasi-360/.pnp.js
+
+# testing
+client-aplikasi-360/coverage
+
+# production
+client-aplikasi-360/build
+
+# misc
+client-aplikasi-360/.DS_Store
+client-aplikasi-360/.env.local
+client-aplikasi-360/.env.development.local
+client-aplikasi-360/.env.test.local
+client-aplikasi-360/.env.production.local
+
+client-aplikasi-360/npm-debug.log*
+client-aplikasi-360/yarn-debug.log*
+client-aplikasi-360/yarn-error.log*
+
+# =========================================
+
+# ===================================
+# SERVER
+server/node_modules
+
+# ===================================
