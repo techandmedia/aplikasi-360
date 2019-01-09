@@ -1,0 +1,8 @@
+{
+  "name": "server-360",
+  "version": "1.0.0",
+  "description": "Route Server for 360",
+  "main": "index.js",
+  "author": "Andri",
+  "license": "MIT"
+}
