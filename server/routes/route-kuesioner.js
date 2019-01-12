@@ -8,28 +8,15 @@ const ps = "penilaian_sendiri";
 const us = "users";
 const ad = "admin";
 const pp = "penilaian_penilai";
+const pp2 = "penilaian_penilai2";
 const per = "pertanyaan";
 
-exports.getHome = router.get("/api/kuesioner", (req, res) => {
-  mySQL.query(`SELECT * FROM ${us}`, (err, results) => {
-    if (err) console.log(err);
-    console.log("success");
-    res.send(JSON.stringify(results));
-  });
-});
-
-// ============== Get Penilaian Teladan ================================
-exports.getTeladan = router.get(`/api/${pt}`, (req, res) => {
-  mySQL.query(`SELECT * FROM ${pt} ORDER BY total_nilai`, (err, results) => {
-    if (err) console.log(err);
-    res.send(JSON.stringify(results));
-  });
-});
-
-// ============== Get Penilaian Penilai ================================
-exports.getTeladan = router.get(`/api/${pp}`, (req, res) => {
+// ============== Get User ================================
+exports.getUser = router.get(`/api/${us}/:id`, (req, res) => {
+  // console.log(req.params);
   mySQL.query(
-    `SELECT us.nip_nim, us.name, pe.total, pe.hasil FROM penilaian_penilai pe INNER JOIN users us ON pe.nip_nim = us.nip_nim ORDER BY pe.total DESC`,
+    `SELECT * FROM ${us} WHERE nip_nim=?`,
+    [req.params.id],
     (err, results) => {
       if (err) console.log(err);
       res.send(JSON.stringify(results));
@@ -37,9 +24,9 @@ exports.getTeladan = router.get(`/api/${pp}`, (req, res) => {
   );
 });
 
-// ============== Get Users ================================
-exports.getRespondens = router.get(`/api/${rs}`, (req, res) => {
-  mySQL.query(`SELECT * FROM ${rs}`, (err, results) => {
+// ============== Get Users =====================
+exports.getUsers = router.get(`/api/${us}`, (req, res) => {
+  mySQL.query(`SELECT * FROM ${us}`, (err, results) => {
     if (err) console.log(err);
     res.send(JSON.stringify(results));
   });
@@ -68,6 +55,40 @@ exports.getResponden = router.post(`/api/${rs}/${rs}`, (req, res) => {
   );
 });
 
+// ============== Get Soal ====================================
+exports.getSoal = router.get(`/api/soal`, (req, res) => {
+  mySQL.query(`SELECT * FROM soal`, (err, results) => {
+    if (err) console.log(err);
+    res.send(JSON.stringify(results));
+  });
+});
+
+// ============== Get Jabatan ====================================
+exports.getRole = router.get(`/api/role`, (req, res) => {
+  mySQL.query(`SELECT * FROM role`, (err, results) => {
+    if (err) console.log(err);
+    res.send(JSON.stringify(results));
+  });
+});
+
+// ============== Post Responden ================================
+exports.postResponden = router.post(`/api/${rs}_new`, (req, res, next) => {
+  const postData = req.body;
+  // console.log(postData)
+  mySQL.query(`INSERT INTO ${rs} SET ?`, postData, (err, results, fields) => {
+    if (!err) {
+      res.send({
+        code: 200,
+        status: "successfuly added a user"
+        // message: JSON.stringify(results)
+      });
+    } else {
+      console.log(err);
+      res.send(err);
+    }
+  });
+});
+
 // ============== Get Detil Penilaian ================================
 exports.getResponden = router.post(`/api/${pp}/${pp}`, (req, res) => {
   // console.log("tes", req.body.full_name);
@@ -83,70 +104,29 @@ exports.getResponden = router.post(`/api/${pp}/${pp}`, (req, res) => {
   );
 });
 
-// ============== Get Anggota Organisasi =====================
-exports.getUsers = router.get(`/api/${us}`, (req, res) => {
-  mySQL.query(`SELECT * FROM ${us}`, (err, results) => {
-    if (err) console.log(err);
-    res.send(JSON.stringify(results));
-  });
-});
-
-// ============== Get Role ====================================
-exports.getRole = router.get(`/api/role`, (req, res) => {
-  mySQL.query(`SELECT * FROM role`, (err, results) => {
-    if (err) console.log(err);
-    res.send(JSON.stringify(results));
-  });
-});
-
-// ============== Get Soal ====================================
-exports.getSoal = router.get(`/api/soal`, (req, res) => {
-  mySQL.query(`SELECT * FROM soal`, (err, results) => {
-    if (err) console.log(err);
-    res.send(JSON.stringify(results));
-  });
-});
-
-// ============== Post Teladan ================================
-exports.postTeladan = router.post(`/api/${pt}_new`, (req, res, next) => {
-  const postData = req.body;
-  // console.log(postData)
-  mySQL.query(`INSERT INTO ${pt} SET ?`, postData, (err, results, fields) => {
-    if (!err) {
-      res.send({
-        code: 200,
-        status: "successfuly added teladan"
-        // message: JSON.stringify(results)
-      });
-    } else {
-      console.log(err);
-      res.send(err);
+// ============== Get Penilaian Penilai ================================
+exports.getPenilaian1 = router.get(`/api/${pp}`, (req, res) => {
+  mySQL.query(
+    `SELECT us.nip_nim, us.name, pe.total, pe.hasil FROM penilaian_penilai pe INNER JOIN users us ON pe.nip_nim = us.nip_nim ORDER BY pe.total DESC`,
+    (err, results) => {
+      if (err) console.log(err);
+      res.send(JSON.stringify(results));
     }
-  });
+  );
 });
 
-// ============== Post Responden  =======================================
-exports.postResponden = router.post(`/api/${rs}_new`, (req, res, next) => {
-  const postData = req.body;
-  console.log("post Responden", postData);
-  mySQL.query(`INSERT INTO ${rs} SET ?`, postData, (err, results, fields) => {
-    if (!err) {
-      res.send({
-        code: 200,
-        status: "successfuly added responden"
-        // message: JSON.stringify(results)
-      });
-    } else {
-      console.log(err);
-      res.send(err);
-    }
+// ============== Get Raw Hasil Pertanyaan ================================
+exports.getPertanyaan = router.get(`/api/${per}`, (req, res) => {
+  mySQL.query(`SELECT * FROM ${per}`, (err, results) => {
+    if (err) console.log(err);
+    res.send(JSON.stringify(results));
   });
 });
 
 // ============== Post Login  =======================================
 exports.postResponden = router.post(`/api/${ad}_login`, (req, res, next) => {
-  const admin_name = req.body.admin_name;
-  const admin_pass = req.body.admin_pass;
+  // const admin_name = req.body.admin_name;
+  // const admin_pass = req.body.admin_pass;
   console.log("post Login", admin_name, admin_pass);
   mySQL.query(`SELECT * FROM ${ad} WHERE admin_name=?`, [admin_name], function(
     err,
@@ -183,28 +163,10 @@ exports.postResponden = router.post(`/api/${ad}_login`, (req, res, next) => {
   });
 });
 
-// ============== Post Users ================================
-exports.postUsers = router.post(`/api/${rs}_new`, (req, res, next) => {
-  const postData = req.body;
-  // console.log(postData)
-  mySQL.query(`INSERT INTO ${rs} SET ?`, postData, (err, results, fields) => {
-    if (!err) {
-      res.send({
-        code: 200,
-        status: "successfuly added a user"
-        // message: JSON.stringify(results)
-      });
-    } else {
-      console.log(err);
-      res.send(err);
-    }
-  });
-});
-
 // ============== Post Penilaian Sendiri ================================
 exports.postOffice = router.post(`/api/${ps}_new`, (req, res, next) => {
   const postData = req.body;
-  // console.log(postData)
+  console.log('169',postData);
   mySQL.query(`INSERT INTO ${ps} SET ?`, postData, (err, results, fields) => {
     if (!err) {
       res.send({
@@ -219,15 +181,15 @@ exports.postOffice = router.post(`/api/${ps}_new`, (req, res, next) => {
   });
 });
 
-// ============== Post Pertanyaan ==========================================
-exports.postOffice = router.post(`/api/${per}_new`, (req, res, next) => {
+// ============== Post Penilaian Penilai ================================
+exports.postTeladan = router.post(`/api/${pp}_new`, (req, res, next) => {
   const postData = req.body;
   // console.log(postData)
-  mySQL.query(`INSERT INTO ${per} SET ?`, postData, (err, results, fields) => {
+  mySQL.query(`INSERT INTO ${pp} SET ?`, postData, (err, results, fields) => {
     if (!err) {
       res.send({
         code: 200,
-        status: "successfuly added kuesioner"
+        status: "successfuly added penilaian penilai"
         // message: JSON.stringify(results)
       });
     } else {
@@ -236,6 +198,66 @@ exports.postOffice = router.post(`/api/${per}_new`, (req, res, next) => {
     }
   });
 });
+
+// ============== Post Responden  =======================================
+exports.postResponden = router.post(`/api/${rs}_new`, (req, res, next) => {
+  const postData = req.body;
+  // console.log("post Responden", postData);
+  mySQL.query(`INSERT INTO ${rs} SET ?`, postData, (err, results, fields) => {
+    if (!err) {
+      res.send({
+        code: 200,
+        status: "successfuly added responden"
+        // message: JSON.stringify(results)
+      });
+    } else {
+      console.log(err);
+      res.send(err);
+    }
+  });
+});
+
+// exports.getHome = router.get("/api/kuesioner", (req, res) => {
+//   mySQL.query(`SELECT * FROM ${us}`, (err, results) => {
+//     if (err) console.log(err);
+//     console.log("success");
+//     res.send(JSON.stringify(results));
+//   });
+// });
+
+// ============== Get Penilaian Teladan ================================
+// exports.getTeladan = router.get(`/api/${pt}`, (req, res) => {
+//   mySQL.query(`SELECT * FROM ${pt} ORDER BY total_nilai`, (err, results) => {
+//     if (err) console.log(err);
+//     res.send(JSON.stringify(results));
+//   });
+// });
+
+// ============== Get Penilaian Penilai2 ================================
+// exports.getPenilaian2 = router.get(`/api/${pp2}`, (req, res) => {
+//   mySQL.query(`SELECT * FROM ${pp2}`, (err, results) => {
+//     if (err) console.log(err);
+//     res.send(JSON.stringify(results));
+//   });
+// });
+
+// ============== Post Teladan ================================
+// exports.postTeladan = router.post(`/api/${pt}_new`, (req, res, next) => {
+//   const postData = req.body;
+//   // console.log(postData)
+//   mySQL.query(`INSERT INTO ${pt} SET ?`, postData, (err, results, fields) => {
+//     if (!err) {
+//       res.send({
+//         code: 200,
+//         status: "successfuly added teladan"
+//         // message: JSON.stringify(results)
+//       });
+//     } else {
+//       console.log(err);
+//       res.send(err);
+//     }
+//   });
+// });
 
 // // ============== Delete Company ================================
 // exports.deleteCompany = router.delete(`/api/${pc}_delete/:id`, (req, res) => {

@@ -5,7 +5,7 @@ import {
   Icon,
   Row,
   Col,
-  Popover,
+  // Popover,
   Avatar,
   Badge
   // Input
@@ -22,8 +22,8 @@ const content = (
   isSignedIn,
   handleClick,
   current,
-  currentUser,
-  notifications
+  // currentUser,
+  // notifications
 ) => (
   <Menu
     // id="nav"
@@ -98,9 +98,13 @@ class TopNavigation extends React.Component {
   };
 
   render() {
-    const { currentUser, isSignedIn, notifications, schoolName } = this.props;
-    const { current } = this.state;
-    const { handleClick } = this;
+    const { 
+      // currentUser, 
+      isSignedIn,
+      //  notifications, schoolName 
+      } = this.props;
+    // const { current } = this.state;
+    // const { handleClick } = this;
     // console.log(this.props);
 
     return (
@@ -123,10 +127,10 @@ class TopNavigation extends React.Component {
         />
         {/* </Popover> */}
         <Row>
-          <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5}>
-            <a id="logo" onClick={() => this.props.onRouteChange("home")}>
+          <Col xs={24} sm={24} md={5} lg={5} xl={5} xxl={5} span={0}>
+            <span id="logo" onClick={() => this.props.onRouteChange("home")}>
              Sistem Informasi Pengolahan Kuesioner 
-            </a>
+            </span>
           </Col>
           <Col xs={0} sm={0} md={19} lg={19} xl={19} xxl={20}>
             <Menu

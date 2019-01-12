@@ -10,18 +10,39 @@ import {
   Row,
   Col
 } from "antd";
-import { getSoal, getUsers, getRole } from "../Fetch/GetData";
-import { HitungC1 } from "../Calcultaion/calcultate";
-import { postPertanyaan } from "../Fetch/PostData";
+import {
+  getSoal,
+  getUsers,
+  getRole,
+  getCheckDuplicate
+} from "../Fetch/GetData";
+import {
+  HitungC1,
+  HitungC2,
+  HitungC3,
+  HitungC4,
+  HitungC5,
+  HitungC6,
+  HitungC7,
+  hitungHasil
+} from "../Calcultaion/calcultate";
+import { postPertanyaan, postPenilai } from "../Fetch/PostData";
 import { formItemLayout, tailFormItemLayout } from "../Basic/FormLayout";
+import { info, success, warning } from "../Basic/InformationModal";
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
 class Dashboard extends React.Component {
-  state = { soal: [], users: [], radioValue: 0 };
+  state = {
+    soal: [],
+    users: [],
+    radioValue: 0,
+    thisUser: null
+  };
 
   componentDidMount() {
+    console.log(this.props.currentUser);
     this.getDataSoal();
     this.getDataUsers();
     this.getDataRole();
@@ -48,8 +69,7 @@ class Dashboard extends React.Component {
   };
 
   getDataSoal = () => {
-    const URL = this.props.URL;
-    getSoal(URL).then(result => {
+    getSoal(this.props.URL).then(result => {
       // console.log(result);
       this.setState({
         soal: result.data.map(data => ({
@@ -81,58 +101,248 @@ class Dashboard extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      console.log(fieldsValue);
-      const K001 = fieldsValue.K001;
-      const K002 = fieldsValue.K002;
-      const K003 = fieldsValue.K003;
-      const K004 = fieldsValue.K004;
-      HitungC1(K001, K002, K003, K004);
+      // console.log(fieldsValue);
+      let responden_id = this.props.currentUser.user_id;
+      let nip_nim = fieldsValue.user_id[0]; // nip_nim
+      let user_id = fieldsValue.user_id[0];
+      let role_id = fieldsValue.role[0];
+      const URL = this.props.URL;
+      console.log(responden_id);
+      let K001 = role_id === 1 ? fieldsValue.K001 : 0;
+      let K002 = role_id === 1 ? fieldsValue.K002 : 0;
+      let K003 = role_id === 1 ? fieldsValue.K003 : 0;
+      let K004 = role_id === 1 ? fieldsValue.K004 : 0;
+      let K005 = fieldsValue.K005;
+      let K006 = fieldsValue.K006;
+      let K007 = fieldsValue.K007;
+      let K008 = fieldsValue.K008;
+      let K009 = fieldsValue.K009;
+      let K010 = fieldsValue.K010;
+      let K011 = fieldsValue.K011;
+      let K012 = fieldsValue.K012;
+      let K013 = fieldsValue.K013;
+      let K014 = fieldsValue.K014;
+      let K015 = fieldsValue.K015;
+      let K016 = fieldsValue.K016;
+      let K017 = fieldsValue.K017;
+      let K018 = fieldsValue.K018;
+      let K019 = fieldsValue.K019;
+      let K020 = fieldsValue.K020;
+      let K021 = fieldsValue.K021;
+      let K022 = fieldsValue.K022;
+      let K023 = fieldsValue.K023;
+      let K024 = fieldsValue.K024;
+      let K025 = fieldsValue.K025;
+      let K026 = fieldsValue.K026;
+      let K027 = fieldsValue.K027;
+      let K028 = fieldsValue.K028;
+      let K029 = fieldsValue.K029;
+      let K030 = fieldsValue.K030;
 
-      // let todayDate = new Date();
-      // const office_name = fieldsValue.office_name;
-      // const company_id = fieldsValue.company_id;
-      // const latitude = fieldsValue.latitude;
-      // const longitude = fieldsValue.longitude;
-      // const startDate = fieldsValue.start_date;
-      // const { overView, handleStayInOverview } = this.props;
+      const C1 = HitungC1(K001, K002, K003, K004);
+      const C2 = HitungC2(role_id, K005, K006, K007);
+      const C3 = HitungC3(role_id, K008, K009, K010);
+      const C4 = HitungC4(role_id, K011, K012, K013);
+      const C5 = HitungC5(role_id, K014, K015, K016, K017);
+      const C6 = HitungC6(role_id, K018, K019, K020, K021, K022, K023);
+      const C7 = HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030);
 
-      // if (err) {
-      //   info(
-      //     "Error",
-      //     "There's something wrong with the connection, please try again latter"
-      //   );
-      //   return null;
-      // }
-      // postOffices(
-      //   this.props.URL,
-      //   office_name,
-      //   company_id,
-      //   latitude,
-      //   longitude,
-      //   todayDate,
-      //   startDate
-      // ).then(res => {
-      //   const code = res.data.code;
-      //   if (code === 200) {
-      //     this.props.handleUpdateChange(code);
-      //     success("Success", "You have succesfully created a office");
-      //     if (overView) {
-      //       handleStayInOverview();
-      //     }
-      //     this.handleReset();
-      //   } else {
-      //     info(
-      //       "Error",
-      //       "There's something wrong with the connection, please try again latter"
-      //     );
-      //   }
-      // });
+      const TotalNilai =
+        C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
+      const hasil = hitungHasil(TotalNilai);
+
+      let date = Date();
+      console.log(user_id, role_id);
+
+      console.log(C1, C2, C3, C4, C5, C6, C7, TotalNilai, hasil);
+
+      if (err) {
+        info(
+          "Error",
+          "There's something wrong with the connection, please try again latter"
+        );
+        return null;
+      } else {
+        // Check duplicate
+        getCheckDuplicate(URL, nip_nim, responden_id).then(res => {
+          const code = res.data.code;
+          const message = res.data.success;
+          console.log(code, message);
+          // Kalau code === 200, tidak ada duplikasi, isi data
+          if (code === 200) {
+            // Tabel pertanyaan
+            postPertanyaan(
+              URL,
+              nip_nim,
+              responden_id,
+              role_id,
+              K001,
+              K002,
+              K003,
+              K004,
+              K005,
+              K006,
+              K007,
+              K008,
+              K009,
+              K010,
+              K011,
+              K012,
+              K013,
+              K014,
+              K015,
+              K016,
+              K017,
+              K018,
+              K019,
+              K020,
+              K021,
+              K022,
+              K023,
+              K024,
+              K025,
+              K026,
+              K027,
+              K028,
+              K029,
+              K030,
+              date
+            ).then(res => {
+              const code = res.data.code;
+              console.log(code);
+              if (code === 200) {
+                // post
+                success(
+                  "Success",
+                  "Anda berhasil melakukan review. Ulangi lagi untuk user lainnya."
+                );
+                // Tabel penilaian_penilai
+                if (role_id === 1) {
+                  console.log(
+                    "pimpinan",
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                  postPenilai(
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                } else if (role_id === 2) {
+                  console.log(
+                    "rekan",
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                  postPenilai(
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                } else if (role_id === 3) {
+                  console.log(
+                    "bawahan",
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                  postPenilai(
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                } else if (role_id === 4) {
+                  console.log(
+                    "mahasiswa",
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                  postPenilai(
+                    URL,
+                    nip_nim,
+                    responden_id,
+                    C1,
+                    C2,
+                    C3,
+                    C4,
+                    C5,
+                    C6,
+                    C7
+                  );
+                }
+              }
+            });
+            // Kalau code === 201, ada duplikasi, batalkan isi data
+          } else if (code === 201) {
+            warning("Warning", `Anda sudah melakukan penilaian untuk user ini`);
+          } else {
+            info(
+              "Error",
+              "There's something wrong with the connection, please try again latter"
+            );
+          }
+        });
+      }
     });
   };
 
   render() {
     const { getFieldDecorator } = this.props.form;
     const { currentUser } = this.props;
+    // const { id } = this.state.data;
+
     return (
       <React.Fragment>
         <h1>
@@ -176,32 +386,15 @@ class Dashboard extends React.Component {
                   })(<Cascader options={this.state.role} />)}
                 </FormItem>
 
-                {/* <FormItem
-                  {...formItemLayout}
-                  label={"Name"}
-                  className="label-style"
-                >
-                  {getFieldDecorator("full_name", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Harap masukkan nama Anda!",
-                        whitespace: false
-                      }
-                    ]
-                  })(<Input placeholder="name" />)}
-                </FormItem> */}
-
-                {/* <FormItem {...formItemLayout} label="Jabatan">
-                  {getFieldDecorator("role", {
-                    rules: [
-                      {
-                        required: true,
-                        message: "Pilih jabatan Anda"
-                      }
-                    ]
-                  })(<Cascader options={this.state.role} />)}
-                </FormItem> */}
+                <FormItem {...tailFormItemLayout}>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ marginBottom: -60 }}
+                  >
+                    Create
+                  </Button>
+                </FormItem>
 
                 {this.state.soal.map(data => {
                   return (
@@ -237,16 +430,6 @@ class Dashboard extends React.Component {
                     </FormItem>
                   );
                 })}
-
-                <FormItem {...tailFormItemLayout}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    style={{ marginBottom: -60 }}
-                  >
-                    Create
-                  </Button>
-                </FormItem>
               </Form>
             </Card>
           </Col>
