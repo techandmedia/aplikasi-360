@@ -6,6 +6,11 @@ const pt = "penilaian_teladan";
 const us = "users";
 const pp = "penilaian_penilai";
 const per = "pertanyaan";
+const q = "questions";
+
+export function getQuestions(URL) {
+  return axios.get(URL + `api/${q}`);
+}
 
 export function getPertanyaan(URL) {
   return axios.get(URL + `api/${per}`);

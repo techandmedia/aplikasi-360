@@ -4,6 +4,22 @@ const mySQL = require("../config/config-MySQL");
 
 const pp = "penilaian_penilai";
 const per = "pertanyaan";
+const q = "questions";
+
+// Get Questions - tabel questions
+exports.getQuestions = router.get(`/api/${q}`, (req, res) => {
+  // console.log(req);
+  mySQL.query(`SELECT * FROM ${q}`, (err, results) => {
+    if (err) {
+      res.send({
+        code: 400,
+        failed: "error ocurred"
+      });
+    } else {
+      res.send(JSON.stringify(results));
+    }
+  });
+});
 
 // ========== Cek ke tabel penilaian _penilai untuk duplikat entry ========
 // Cek dari tabel penilaian_penilai, apakah nim dan user id sama/sudah pernah diisi

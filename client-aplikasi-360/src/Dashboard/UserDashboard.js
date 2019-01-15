@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
       const hasil = hitungHasil(TotalNilai);
 
       let date = Date();
-      console.log(user_id, role_id);
+      console.log(date);
 
       console.log(C1, C2, C3, C4, C5, C6, C7, TotalNilai, hasil);
 

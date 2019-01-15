@@ -1,7 +1,13 @@
 import React from "react";
 import { Table, Button } from "antd";
 
-import { getPenilaianPenilai, getPertanyaan, getUser } from "../Fetch/GetData";
+import {
+  getPenilaianPenilai,
+  getPertanyaan,
+  getUser,
+  getUsers,
+  getQuestions
+} from "../Fetch/GetData";
 import { getDetailPenilaian } from "../Fetch/PostData";
 
 import {
@@ -11,8 +17,11 @@ import {
   HitungC4,
   HitungC5,
   HitungC6,
-  HitungC7
+  HitungC7,
+  hitungHasil
 } from "../Calcultaion/calcultate";
+
+import { hitungQuestions, dapatkanNilai } from "../Calcultaion/filter";
 
 class TablePenilaian extends React.Component {
   state = {
@@ -23,17 +32,21 @@ class TablePenilaian extends React.Component {
     tabelDetil: false,
     detilPenilaian: [],
     rawPertanyaan: [],
-    hasilPenilaian: []
+    hasilPenilaian: [],
+    dataUser: [],
+    questions: []
   };
 
   componentDidMount() {
-    // this.getDataUser();
     this.getDataPenilaian();
     this.getDataPertanyaan();
-    // this.getDataC();
+    this.getDataC();
   }
 
   componentDidUpdate() {
+    this.getPenilaian();
+    // this.tes2();
+    // this.getDataQuestions();
     this.getDataC();
   }
 
@@ -101,12 +114,159 @@ class TablePenilaian extends React.Component {
     return null;
   };
 
-  // getDataUser = () => {
-  //   const URL = this.props.URL;
-  //   getUsers(URL).then(response => {
-  //     console.log(response);
-  //   });
-  // };
+  getDataQuestions = () => {
+    getQuestions(this.props.URL).then(res => {
+      this.setState({
+        questions: res.data.map(data => ({
+          nip_nim: data.nip_nim,
+          responden_id: data.responden_id,
+          role_id: data.role_id,
+          K001: data.K001,
+          K002: data.K002,
+          K003: data.K003,
+          K004: data.K004,
+          K005: data.K005,
+          K006: data.K006,
+          K007: data.K007,
+          K008: data.K008,
+          K009: data.K009,
+          K010: data.K010,
+          K011: data.K011,
+          K012: data.K012,
+          K013: data.K013,
+          K014: data.K014,
+          K015: data.K015,
+          K016: data.K016,
+          K017: data.K017,
+          K018: data.K018,
+          K019: data.K019,
+          K020: data.K020,
+          K021: data.K021,
+          K022: data.K022,
+          K023: data.K023,
+          K024: data.K024,
+          K025: data.K025,
+          K026: data.K026,
+          K027: data.K027,
+          K028: data.K028,
+          K029: data.K029,
+          K030: data.K030
+        }))
+      });
+    });
+  };
+
+  getDataUser = () => {
+    const URL = this.props.URL;
+    getUsers(URL).then(response => {
+      this.setState({
+        dataUser: response.data.map(data => ({
+          nip_nim: data.nip_nim,
+          name: data.name
+        }))
+      });
+      // console.log(this.state.dataUser);
+    });
+  };
+
+  getPenilaian = () => {
+    const { dataUser, questions } = this.props;
+    console.log(questions);
+    // const Q = hitungQuestions(this.props.questions, this.props.dataUser);
+    // const A = dapatkanNilai(this.props.dataUser, this.props.questions);
+    for (let a = 0; a < dataUser.length; a++) {
+      // console.log(a, users[a].nip_nim);
+      let P1 = 0;
+      let P2 = 0;
+      let P3 = 0;
+      let P4 = 0;
+      for (let i = 0; i < questions.length; i++) {
+        if (dataUser[a].nip_nim === questions[i].nip_nim) {
+          let q = questions[i];
+          let role_id = questions[i].role_id;
+          let K001 = role_id === 1 ? q.K001 : 0;
+          let K002 = role_id === 1 ? q.K002 : 0;
+          let K003 = role_id === 1 ? q.K003 : 0;
+          let K004 = role_id === 1 ? q.K004 : 0;
+          let K005 = q.K005;
+          let K006 = q.K006;
+          let K007 = q.K007;
+          let K008 = q.K008;
+          let K009 = q.K009;
+          let K010 = q.K010;
+          let K011 = q.K011;
+          let K012 = q.K012;
+          let K013 = q.K013;
+          let K014 = q.K014;
+          let K015 = q.K015;
+          let K016 = q.K016;
+          let K017 = q.K017;
+          let K018 = q.K018;
+          let K019 = q.K019;
+          let K020 = q.K020;
+          let K021 = q.K021;
+          let K022 = q.K022;
+          let K023 = q.K023;
+          let K024 = q.K024;
+          let K025 = q.K025;
+          let K026 = q.K026;
+          let K027 = q.K027;
+          let K028 = q.K028;
+          let K029 = q.K029;
+          let K030 = q.K030;
+
+          const C1 = HitungC1(K001, K002, K003, K004);
+          const C2 = HitungC2(role_id, K005, K006, K007);
+          const C3 = HitungC3(role_id, K008, K009, K010);
+          const C4 = HitungC4(role_id, K011, K012, K013);
+          const C5 = HitungC5(role_id, K014, K015, K016, K017);
+          const C6 = HitungC6(role_id, K018, K019, K020, K021, K022, K023);
+          const C7 = HitungC7(
+            role_id,
+            K024,
+            K025,
+            K026,
+            K027,
+            K028,
+            K029,
+            K030
+          );
+
+          const TotalNilai =
+            C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
+
+          if (role_id === 1) {
+            P1 = P1 + TotalNilai;
+            // console.log("P1", P1);
+          } else if (role_id === 2) {
+            P2 = P2 + TotalNilai;
+            // console.log("P2", P2);
+          } else if (role_id === 3) {
+            P3 = P3 + TotalNilai;
+            // console.log("P3", P3);
+          } else if (role_id === 4) {
+            P4 = P4 + TotalNilai;
+            // console.log("P4", P4);
+          }
+
+          const hasil = hitungHasil(TotalNilai);
+
+          // console.log(C1)
+          console.log(
+            i,
+            dataUser[a].name,
+            questions[i].nip_nim,
+            P1,
+            P2,
+            P3,
+            P4
+          );
+        }
+      }
+    }
+    // console.log(Q);
+    return null;
+  };
 
   getDetilPenilaian = nip_nim => {
     const URL = this.props.URL;
@@ -285,8 +445,30 @@ class TablePenilaian extends React.Component {
     });
   };
 
+  tes = () => {
+    this.props.questions.forEach(function(qItem) {
+      console.log(qItem);
+    });
+  };
+
+  tes2 = () => {
+    this.props.dataUser.forEach(function(uItem) {
+      console.log(uItem.nip_nim);
+      // this.tes();
+      let tes_nip = this.props.questions.map(data => {
+        return data;
+        // var res = qItem.map(function(o) {
+        //   console.log(res);
+        //   return null;
+        // });
+        // console.log(res[0]);
+      });
+      console.log(tes_nip);
+    });
+  };
+
   render() {
-    console.log(this.state.hasilPenilaian);
+    // console.log(this.state.hasilPenilaian);
     // console.log(this.props.currentUser);
 
     let {

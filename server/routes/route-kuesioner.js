@@ -125,9 +125,9 @@ exports.getPertanyaan = router.get(`/api/${per}`, (req, res) => {
 
 // ============== Post Login  =======================================
 exports.postResponden = router.post(`/api/${ad}_login`, (req, res, next) => {
-  // const admin_name = req.body.admin_name;
-  // const admin_pass = req.body.admin_pass;
-  console.log("post Login", admin_name, admin_pass);
+  const admin_name = req.body.admin_name;
+  const admin_pass = req.body.admin_pass;
+  // console.log("post Login", admin_name, admin_pass);
   mySQL.query(`SELECT * FROM ${ad} WHERE admin_name=?`, [admin_name], function(
     err,
     results,

@@ -9,7 +9,7 @@ import AdminDashboard from "./Dashboard/AdminDashboard";
 // import AdminDashboard from "AdminDasboard";
 
 import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
-import { getResponden, getRole } from "./Fetch/GetData";
+import { getResponden, getRole, getQuestions, getUsers } from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
 
 // import ModalDeletion from "./Basic/ModalDeletion";
@@ -26,15 +26,17 @@ class App extends React.Component {
   state = {
     visible: false,
     status: false,
-    route: "dashboard",
+    route: "home",
     currentUser: {
-      full_name: "Admin",
+      full_name: "Eko Andri",
       user_id: 97,
       role_name: "Pimpinan",
       role_id: 1
     },
     isSignedIn: false,
-    collapsed: false
+    collapsed: true,
+    dataUser: [],
+    questions: []
   };
 
   // Binding function in onClick or onSubmit
@@ -57,9 +59,39 @@ class App extends React.Component {
   // ===============  Life Cycle Hooks ===========================
 
   componentDidMount() {
+    this.getDataUser();
+    this.getDataQuestions();
     // this.getDataCompanies();
     // this.getDataOffices();
+    this.hitungMath();
   }
+
+  hitungMath = () => {
+    let A = 0;
+    let B = 0;
+    let C = 0;
+    for (let i = 0; i < 10; i++) {
+      if (i < 3) {
+        A = A + i;
+        console.log("A", A, i);
+      } else if (i < 5 || i === 5) {
+        B = B + i;
+        console.log("B", B, i);
+      } else if (i > 5) {
+        C = C + i;
+        console.log("C", C, i);
+      }
+    }
+    console.log("Total A", A);
+    console.log("Total B", B);
+    console.log("Total C", C);
+    A = 0;
+    B = 0;
+    C = 0;
+    console.log("A", A);
+    console.log("B", B);
+    console.log("C", C);
+  };
 
   componentDidUpdate(prevProps, prevState) {
     // console.log("prevState.status", prevState.status);
@@ -69,7 +101,62 @@ class App extends React.Component {
       this.getDataCompanies();
       this.getDataOffices();
     }
+    this.hitungMath();
   }
+
+  getDataQuestions = () => {
+    getQuestions(URL).then(res => {
+      this.setState({
+        questions: res.data.map(data => ({
+          nip_nim: data.nip_nim,
+          responden_id: data.responden_id,
+          role_id: data.role_id,
+          K001: data.K001,
+          K002: data.K002,
+          K003: data.K003,
+          K004: data.K004,
+          K005: data.K005,
+          K006: data.K006,
+          K007: data.K007,
+          K008: data.K008,
+          K009: data.K009,
+          K010: data.K010,
+          K011: data.K011,
+          K012: data.K012,
+          K013: data.K013,
+          K014: data.K014,
+          K015: data.K015,
+          K016: data.K016,
+          K017: data.K017,
+          K018: data.K018,
+          K019: data.K019,
+          K020: data.K020,
+          K021: data.K021,
+          K022: data.K022,
+          K023: data.K023,
+          K024: data.K024,
+          K025: data.K025,
+          K026: data.K026,
+          K027: data.K027,
+          K028: data.K028,
+          K029: data.K029,
+          K030: data.K030
+        }))
+      });
+    });
+  };
+
+  getDataUser = () => {
+    getUsers(URL).then(response => {
+      this.setState({
+        dataUser: response.data.map(data => ({
+          nip_nim: data.nip_nim,
+          name: data.name
+        }))
+      });
+      // console.log(this.state.dataUser);
+    });
+  };
 
   // =============================================================
 
@@ -223,13 +310,14 @@ class App extends React.Component {
   // =============== Render ===========================================
 
   render() {
-    const { route, currentUser, isSignedIn } = this.state;
+    const { route, currentUser, isSignedIn, dataUser, questions } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     const { Sider, Content, Footer } = Layout;
     // console.log(companies);
     // console.log(offices);
 
     return (
+      // <h1>Tes</h1>
       <Layout style={{ height: "100vh" }}>
         <TopNavigation
           currentUser={currentUser}
@@ -273,7 +361,12 @@ class App extends React.Component {
               >
                 {route === "admin-dashboard" ? (
                   <Col sm={{ span: 12, offset: 0 }}>
-                    <AdminDashboard URL={URL} currentUser={currentUser} />
+                    <AdminDashboard
+                      URL={URL}
+                      currentUser={currentUser}
+                      dataUser={dataUser}
+                      questions={questions}
+                    />
                   </Col>
                 ) : route === "admin" ? (
                   <SignIn
@@ -311,7 +404,7 @@ class App extends React.Component {
           </Layout>
         </Layout>
       </Layout>
-      // <Layout>
+      // // <Layout>
       //   <TopNavigation
       // currentUser={currentUser}
       // onRouteChange={onRouteChange}
