@@ -7,6 +7,7 @@ const cors = require("cors");
 // Route
 const routePertanyaan = require("./routes/route-pertanyaan");
 const routeKuesioner = require("./routes/route-kuesioner");
+const routePropspace = require("./routes/route-prospace");
 
 server.use(cors());
 server.use(compression());
@@ -22,3 +23,4 @@ server.listen(port, () => console.log(`Listening on port ${port}`));
 // New Route
 server.use(routePertanyaan);
 server.use(routeKuesioner);
+server.use(routePropspace);

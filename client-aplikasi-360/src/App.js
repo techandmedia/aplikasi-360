@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Layout } from "antd";
+import MainLayout from "./layout/Layout";
 
 import TopNavigation from "./Navigation/TopNavigation";
 import CreateResponden from "./Form/CreateResponden";
@@ -8,15 +8,16 @@ import SignIn from "./Form/Signin";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 // import AdminDashboard from "AdminDasboard";
 
-import { deleteCompany, deleteOffice, deleteBranch } from "./Fetch/DeleteData";
+import { dapatkanNilai } from "./Calcultaion/filter";
 import { getResponden, getRole, getQuestions, getUsers } from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
 
+// import { hitungQuestions } from "./Calcultaion/filter";
+
 // import ModalDeletion from "./Basic/ModalDeletion";
-import { info, success } from "./Basic/InformationModal";
+// import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
-import "./CSS/App.css";
-import "./CSS/ant-custom.css";
+import "./App.css";
 // import Dashboard from "./Dashboard/UserDashboard";
 
 const URL =
@@ -26,7 +27,7 @@ class App extends React.Component {
   state = {
     visible: false,
     status: false,
-    route: "home",
+    route: "admin-dashboard",
     currentUser: {
       full_name: "Eko Andri",
       user_id: 97,
@@ -36,7 +37,8 @@ class App extends React.Component {
     isSignedIn: false,
     collapsed: true,
     dataUser: [],
-    questions: []
+    questions: [],
+    dataPenilaian: []
   };
 
   // Binding function in onClick or onSubmit
@@ -61,51 +63,25 @@ class App extends React.Component {
   componentDidMount() {
     this.getDataUser();
     this.getDataQuestions();
-    // this.getDataCompanies();
-    // this.getDataOffices();
-    this.hitungMath();
+    // this.setState({
+    //   status: true
+    // });
   }
 
-  hitungMath = () => {
-    let A = 0;
-    let B = 0;
-    let C = 0;
-    for (let i = 0; i < 10; i++) {
-      if (i < 3) {
-        A = A + i;
-        console.log("A", A, i);
-      } else if (i < 5 || i === 5) {
-        B = B + i;
-        console.log("B", B, i);
-      } else if (i > 5) {
-        C = C + i;
-        console.log("C", C, i);
-      }
-    }
-    console.log("Total A", A);
-    console.log("Total B", B);
-    console.log("Total C", C);
-    A = 0;
-    B = 0;
-    C = 0;
-    console.log("A", A);
-    console.log("B", B);
-    console.log("C", C);
-  };
-
   componentDidUpdate(prevProps, prevState) {
-    // console.log("prevState.status", prevState.status);
-    // console.log("thisstate.status", this.state.status);
-    this.handleUpdateChange();
-    if (prevState.status !== this.state.status) {
-      this.getDataCompanies();
-      this.getDataOffices();
-    }
-    this.hitungMath();
+    // this.handleUpdateChange();
+    // if (prevState.status !== this.state.status) {
+    //   console.log("prevState.status", prevState.status);
+    //   console.log("thisstate.status", this.state.status);
+    //   console.log(this.state.questions);
+    //   console.log(this.state.dataUser);
+    //   this.getDataNilai();
+    // }
   }
 
   getDataQuestions = () => {
     getQuestions(URL).then(res => {
+      // console.log(res.data);
       this.setState({
         questions: res.data.map(data => ({
           nip_nim: data.nip_nim,
@@ -156,6 +132,25 @@ class App extends React.Component {
       });
       // console.log(this.state.dataUser);
     });
+  };
+
+  getDataNilai = () => {
+    const { dataUser, questions } = this.state;
+    console.log(questions);
+    console.log(dataUser);
+    this.setState({
+      dataPenilaian: dapatkanNilai(dataUser, questions).map(data => ({
+        nip_nim: data.nip_nim,
+        name: data.name,
+        p1: data.P1,
+        p2: data.P2,
+        p3: data.P3,
+        p4: data.P4,
+        total: data.total,
+        hasil: data.hasil
+      }))
+    });
+    // return null;
   };
 
   // =============================================================
@@ -220,39 +215,39 @@ class App extends React.Component {
     });
   };
 
-  handleModalOk = () => {
-    const companyID = this.state.companyID;
-    const officeID = this.state.officeID;
-    if (companyID) {
-      deleteCompany(URL, companyID).then(res => {
-        const code = res.data.code;
-        if (code === 200) {
-          this.handleUpdateChange(code);
-          success("Success", "You have succesfully deleted a company!");
-          deleteBranch(URL, companyID);
-          this.setState({ companyID: 0 });
-        } else {
-          info("Info", "Deletion failed. Check your connection!");
-        }
-      });
-    } else if (officeID) {
-      deleteOffice(URL, officeID).then(res => {
-        const code = res.data.code;
-        if (code === 200) {
-          this.handleUpdateChange(code);
-          success("Success", "You have succesfully deleted a office!");
-          this.setState({ officeID: 0, overView: true });
-        } else {
-          info("Info", "Deletion failed. Check your connection!");
-        }
-      });
-    }
-    this.setState({
-      visible: false,
-      overView: false,
-      isCompany: true
-    });
-  };
+  // handleModalOk = () => {
+  //   const companyID = this.state.companyID;
+  //   const officeID = this.state.officeID;
+  //   if (companyID) {
+  //     deleteCompany(URL, companyID).then(res => {
+  //       const code = res.data.code;
+  //       if (code === 200) {
+  //         this.handleUpdateChange(code);
+  //         success("Success", "You have succesfully deleted a company!");
+  //         deleteBranch(URL, companyID);
+  //         this.setState({ companyID: 0 });
+  //       } else {
+  //         info("Info", "Deletion failed. Check your connection!");
+  //       }
+  //     });
+  //   } else if (officeID) {
+  //     deleteOffice(URL, officeID).then(res => {
+  //       const code = res.data.code;
+  //       if (code === 200) {
+  //         this.handleUpdateChange(code);
+  //         success("Success", "You have succesfully deleted a office!");
+  //         this.setState({ officeID: 0, overView: true });
+  //       } else {
+  //         info("Info", "Deletion failed. Check your connection!");
+  //       }
+  //     });
+  //   }
+  //   this.setState({
+  //     visible: false,
+  //     overView: false,
+  //     isCompany: true
+  //   });
+  // };
 
   handleModalCancel = e => {
     this.setState({
@@ -307,103 +302,158 @@ class App extends React.Component {
     }
   };
 
+  onSiderChange = event => {
+    const screenWidth = window.innerWidth;
+    if (!event && screenWidth < 415) {
+      this.setState({
+        siderStatus: "smaller-header"
+      });
+    } else {
+      this.setState({
+        siderStatus: "header"
+      });
+    }
+  };
+
   // =============== Render ===========================================
 
   render() {
-    const { route, currentUser, isSignedIn, dataUser, questions } = this.state;
+    const {
+      route,
+      currentUser,
+      isSignedIn,
+      dataUser,
+      questions
+    } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
-    const { Sider, Content, Footer } = Layout;
-    // console.log(companies);
+    // const { Sider, Content, Footer } = Layout;
+    const { onSiderChange } = this;
+    // console.log(questions);
     // console.log(offices);
 
     return (
       // <h1>Tes</h1>
-      <Layout style={{ height: "100vh" }}>
-        <TopNavigation
-          currentUser={currentUser}
-          onRouteChange={onRouteChange}
-          isSignedIn={isSignedIn}
-        />
-        <Layout>
-          <Sider
-            collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.onCollapse}
-          >
-            <div
-            // style={{
-            //   display: "flex",
-            //   justifyContent: "center",
-            //   alignItems: "center"
-            // }}
-            >
-              <Col span={24}>
-                <Row>
-                  <h3 style={{ textAlign: "center", marginTop: 20 }}>
-                    {currentUser.full_name}
-                  </h3>
-                </Row>
-                <Row>
-                  <p style={{ textAlign: "center" }}>{currentUser.role_name}</p>
-                </Row>
-              </Col>
-            </div>
-          </Sider>
-          <Layout>
-            <Content>
-              <Row
-                type="flex"
-                justify="center"
-                style={{
-                  // marginTop: "1em",
-                  padding: "1em"
-                }}
-              >
-                {route === "admin-dashboard" ? (
-                  <Col sm={{ span: 12, offset: 0 }}>
-                    <AdminDashboard
-                      URL={URL}
-                      currentUser={currentUser}
-                      dataUser={dataUser}
-                      questions={questions}
-                    />
-                  </Col>
-                ) : route === "admin" ? (
-                  <SignIn
-                    URL={URL}
-                    loadUser={loadUser}
-                    onRouteChange={onRouteChange}
-                  />
-                ) : route === "dashboard" ? (
-                  <Col sm={{ span: 24, offset: 0 }}>
-                    <UserDashboard currentUser={currentUser} URL={URL} />
-                  </Col>
-                ) : route === "home" ? (
-                  <Col sm={{ span: 24, offset: 0 }}>
-                    {/* <h1>Tes</h1> */}
-                    <CreateResponden
-                      URL={URL}
-                      getUser={getUser}
-                      getDataResponden={getDataResponden}
-                      onRouteChange={onRouteChange}
-                    />
-                  </Col>
-                ) : (
-                  <Col sm={{ span: 24, offset: 0 }}>
-                    {/* <h1>Tes</h1> */}
-                    <CreateResponden
-                      URL={URL}
-                      getUser={getUser}
-                      getDataResponden={getDataResponden}
-                    />
-                  </Col>
-                )}
-              </Row>
-            </Content>
-            <Footer>Footer</Footer>
-          </Layout>
-        </Layout>
-      </Layout>
+      <MainLayout onSiderChange={onSiderChange}>
+        {route === "admin-dashboard" ? (
+          // <Col sm={{ span: 12, offset: 0 }}>
+          <AdminDashboard
+            URL={URL}
+            currentUser={currentUser}
+            dataUser={dataUser}
+            questions={questions}
+          />
+        ) : // </Col>
+        route === "admin" ? (
+          <SignIn URL={URL} loadUser={loadUser} onRouteChange={onRouteChange} />
+        ) : route === "dashboard" ? (
+          // <Col sm={{ span: 24, offset: 0 }}>
+          <UserDashboard currentUser={currentUser} URL={URL} />
+        ) : // </Col>
+        route === "home" ? (
+          // <Col sm={{ span: 24, offset: 0 }}>
+          <CreateResponden
+            URL={URL}
+            getUser={getUser}
+            getDataResponden={getDataResponden}
+            onRouteChange={onRouteChange}
+          />
+        ) : (
+          // </Col>
+          // <Col sm={{ span: 24, offset: 0 }}>
+          <CreateResponden
+            URL={URL}
+            getUser={getUser}
+            getDataResponden={getDataResponden}
+          />
+          // </Col>
+        )}
+      </MainLayout>
+      // <Layout style={{ height: "100vh" }}>
+      //   <TopNavigation
+      //     currentUser={currentUser}
+      //     onRouteChange={onRouteChange}
+      //     isSignedIn={isSignedIn}
+      //   />
+      //   <Layout>
+      //     <Sider
+      //       collapsible
+      //       collapsed={this.state.collapsed}
+      //       onCollapse={this.onCollapse}
+      //     >
+      //       <div
+      //       // style={{
+      //       //   display: "flex",
+      //       //   justifyContent: "center",
+      //       //   alignItems: "center"
+      //       // }}
+      //       >
+      //         <Col span={24}>
+      //           <Row>
+      //             <h3 style={{ textAlign: "center", marginTop: 20 }}>
+      //               {currentUser.full_name}
+      //             </h3>
+      //           </Row>
+      //           <Row>
+      //             <p style={{ textAlign: "center" }}>{currentUser.role_name}</p>
+      //           </Row>
+      //         </Col>
+      //       </div>
+      //     </Sider>
+      //     <Layout>
+      //       <Content>
+      //         <Row
+      //           type="flex"
+      //           justify="center"
+      //           style={{
+      //             // marginTop: "1em",
+      //             padding: "1em"
+      //           }}
+      //         >
+      //           {route === "admin-dashboard" ? (
+      //             <Col sm={{ span: 12, offset: 0 }}>
+      //               <AdminDashboard
+      //                 URL={URL}
+      //                 currentUser={currentUser}
+      //                 dataUser={dataUser}
+      //                 questions={questions}
+      //               />
+      //             </Col>
+      //           ) : route === "admin" ? (
+      //             <SignIn
+      //               URL={URL}
+      //               loadUser={loadUser}
+      //               onRouteChange={onRouteChange}
+      //             />
+      //           ) : route === "dashboard" ? (
+      //             <Col sm={{ span: 24, offset: 0 }}>
+      //               <UserDashboard currentUser={currentUser} URL={URL} />
+      //             </Col>
+      //           ) : route === "home" ? (
+      //             <Col sm={{ span: 24, offset: 0 }}>
+      //               {/* <h1>Tes</h1> */}
+      //               <CreateResponden
+      //                 URL={URL}
+      //                 getUser={getUser}
+      //                 getDataResponden={getDataResponden}
+      //                 onRouteChange={onRouteChange}
+      //               />
+      //             </Col>
+      //           ) : (
+      //             <Col sm={{ span: 24, offset: 0 }}>
+      //               {/* <h1>Tes</h1> */}
+      //               <CreateResponden
+      //                 URL={URL}
+      //                 getUser={getUser}
+      //                 getDataResponden={getDataResponden}
+      //               />
+      //             </Col>
+      //           )}
+      //         </Row>
+      //       </Content>
+      //       <Footer>Footer</Footer>
+      //     </Layout>
+      //   </Layout>
+      // </Layout>
       // // <Layout>
       //   <TopNavigation
       // currentUser={currentUser}

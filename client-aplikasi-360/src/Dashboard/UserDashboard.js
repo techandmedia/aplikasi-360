@@ -104,7 +104,7 @@ class Dashboard extends React.Component {
       // console.log(fieldsValue);
       let responden_id = this.props.currentUser.user_id;
       let nip_nim = fieldsValue.user_id[0]; // nip_nim
-      let user_id = fieldsValue.user_id[0];
+      // let user_id = fieldsValue.user_id[0];
       let role_id = fieldsValue.role[0];
       const URL = this.props.URL;
       console.log(responden_id);

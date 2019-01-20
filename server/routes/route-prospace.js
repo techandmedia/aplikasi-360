@@ -5,12 +5,14 @@ const mySQL = require("../config/config-MySQL");
 const pc = "prospace_companies";
 const po = "prospace_offices";
 
-exports.getHome = router.get("/", (req, res) => {
-  mySQL.query(`SELECT * FROM ${pc}`, (err, results) => {
-    if (err) console.log(err);
-    console.log("success");
-    res.send(JSON.stringify(results));
-  });
+exports.getHome = router.get("/myhome", (req, res) => {
+  console.log("success",req.body);
+  res.send(JSON.stringify("Berhasil konek"));
+  // mySQL.query(`SELECT * FROM ${pc}`, (err, results) => {
+  //   if (err) console.log(err);
+  //   console.log("success");
+  //   res.send(JSON.stringify(results));
+  // });
 });
 
 // ============== Get Companies ================================

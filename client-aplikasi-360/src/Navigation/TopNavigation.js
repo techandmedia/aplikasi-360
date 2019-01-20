@@ -18,65 +18,65 @@ const { Header } = Layout;
 // const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
 
-const content = (
-  isSignedIn,
-  handleClick,
-  current,
-  // currentUser,
-  // notifications
-) => (
-  <Menu
-    // id="nav"
-    onClick={handleClick}
-    selectedKeys={[current]}
-    mode="vertical"
-  >
-    <Menu.Item key="book">
-      <Icon type="book" theme="twoTone" twoToneColor="#52c41a" />
-      Aplikasi Quesioner
-    </Menu.Item>
-    <Menu.Item key="siakad">
-      <Icon type="appstore" theme="twoTone" twoToneColor="#52c41a" />
-      Tentang Siakad
-    </Menu.Item>
-    {isSignedIn ? (
-      <SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            <Badge count={4}>
-              Welcome
-              {/* {currentUser} */}
-              <Avatar
-                shape="square"
-                icon="user"
-                style={{
-                  marginLeft: 15,
-                  backgroundColor: "orange",
-                  verticalAlign: "middle",
-                  paddingLeft: 8
-                }}
-              />
-            </Badge>
-          </span>
-        }
-      >
-        <Menu.Item key="logout">Logout</Menu.Item>
-      </SubMenu>
-    ) : (
-      <SubMenu
-        title={
-          <span className="submenu-title-wrapper">
-            <Icon type="setting" />
-            Member
-          </span>
-        }
-      >
-        <Menu.Item key="login">Login</Menu.Item>
-        {/* <Menu.Item key="register">Register</Menu.Item> */}
-      </SubMenu>
-    )}
-  </Menu>
-);
+// const content = (
+//   isSignedIn,
+//   handleClick,
+//   current,
+//   // currentUser,
+//   // notifications
+// ) => (
+//   <Menu
+//     // id="nav"
+//     onClick={handleClick}
+//     selectedKeys={[current]}
+//     mode="vertical"
+//   >
+//     <Menu.Item key="book">
+//       <Icon type="book" theme="twoTone" twoToneColor="#52c41a" />
+//       Aplikasi Quesioner
+//     </Menu.Item>
+//     <Menu.Item key="siakad">
+//       <Icon type="appstore" theme="twoTone" twoToneColor="#52c41a" />
+//       Tentang Siakad
+//     </Menu.Item>
+//     {isSignedIn ? (
+//       <SubMenu
+//         title={
+//           <span className="submenu-title-wrapper">
+//             <Badge count={4}>
+//               Welcome
+//               {/* {currentUser} */}
+//               <Avatar
+//                 shape="square"
+//                 icon="user"
+//                 style={{
+//                   marginLeft: 15,
+//                   backgroundColor: "orange",
+//                   verticalAlign: "middle",
+//                   paddingLeft: 8
+//                 }}
+//               />
+//             </Badge>
+//           </span>
+//         }
+//       >
+//         <Menu.Item key="logout">Logout</Menu.Item>
+//       </SubMenu>
+//     ) : (
+//       <SubMenu
+//         title={
+//           <span className="submenu-title-wrapper">
+//             <Icon type="setting" />
+//             Member
+//           </span>
+//         }
+//       >
+//         <Menu.Item key="login">Login</Menu.Item>
+//         {/* <Menu.Item key="register">Register</Menu.Item> */}
+//       </SubMenu>
+//     )}
+//   </Menu>
+// );
 
 class TopNavigation extends React.Component {
   state = {

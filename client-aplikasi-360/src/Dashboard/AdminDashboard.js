@@ -1,272 +1,23 @@
 import React from "react";
 import { Table, Button } from "antd";
 
-import {
-  getPenilaianPenilai,
-  getPertanyaan,
-  getUser,
-  getUsers,
-  getQuestions
-} from "../Fetch/GetData";
 import { getDetailPenilaian } from "../Fetch/PostData";
 
-import {
-  HitungC1,
-  HitungC2,
-  HitungC3,
-  HitungC4,
-  HitungC5,
-  HitungC6,
-  HitungC7,
-  hitungHasil
-} from "../Calcultaion/calcultate";
-
-import { hitungQuestions, dapatkanNilai } from "../Calcultaion/filter";
+import { dapatkanNilai } from "../Calcultaion/filter";
 
 class TablePenilaian extends React.Component {
   state = {
     filteredInfo: null,
     sortedInfo: null,
-    dataPenilaian: [],
     tabelUtama: true,
-    tabelDetil: false,
     detilPenilaian: [],
-    rawPertanyaan: [],
-    hasilPenilaian: [],
-    dataUser: [],
-    questions: []
+    status: false
   };
 
-  componentDidMount() {
-    this.getDataPenilaian();
-    this.getDataPertanyaan();
-    this.getDataC();
-  }
+  componentDidMount() {}
 
-  componentDidUpdate() {
-    this.getPenilaian();
-    // this.tes2();
-    // this.getDataQuestions();
-    this.getDataC();
-  }
-
-  getDataPertanyaan = () => {
-    const URL = this.props.URL;
-    getPertanyaan(URL).then(response => {
-      // console.log(response.data);
-      this.setState({
-        rawPertanyaan: response.data.map(data => ({
-          primary_id: data.primary_id,
-          user_id: data.user_id,
-          responden_id: data.responden_id,
-          role_id: data.role_id,
-          K001: data.K001,
-          K002: data.K002,
-          K003: data.K003,
-          K004: data.K004,
-          K005: data.K005,
-          K006: data.K006,
-          K007: data.K007,
-          K008: data.K008,
-          K009: data.K009,
-          K010: data.K010,
-          K011: data.K011,
-          K012: data.K012,
-          K013: data.K013,
-          K014: data.K014,
-          K015: data.K015,
-          K016: data.K016,
-          K017: data.K017,
-          K018: data.K018,
-          K019: data.K019,
-          K020: data.K020,
-          K021: data.K021,
-          K022: data.K022,
-          K023: data.K023,
-          K024: data.K024,
-          K025: data.K025,
-          K026: data.K026,
-          K027: data.K027,
-          K028: data.K028,
-          K029: data.K029,
-          K030: data.K030
-        }))
-      });
-      // console.log(this.state.rawPertanyaan);
-    });
-    return null;
-  };
-
-  getDataPenilaian = () => {
-    const URL = this.props.URL;
-    getPenilaianPenilai(URL).then(response => {
-      // console.log(response.data);
-      this.setState({
-        dataPenilaian: response.data.map(data => ({
-          nip_nim: data.nip_nim,
-          name: data.name,
-          total: data.total.toFixed(1),
-          hasil: data.hasil
-        }))
-      });
-      // console.log(this.state.dataPenilaian);
-    });
-    return null;
-  };
-
-  getDataQuestions = () => {
-    getQuestions(this.props.URL).then(res => {
-      this.setState({
-        questions: res.data.map(data => ({
-          nip_nim: data.nip_nim,
-          responden_id: data.responden_id,
-          role_id: data.role_id,
-          K001: data.K001,
-          K002: data.K002,
-          K003: data.K003,
-          K004: data.K004,
-          K005: data.K005,
-          K006: data.K006,
-          K007: data.K007,
-          K008: data.K008,
-          K009: data.K009,
-          K010: data.K010,
-          K011: data.K011,
-          K012: data.K012,
-          K013: data.K013,
-          K014: data.K014,
-          K015: data.K015,
-          K016: data.K016,
-          K017: data.K017,
-          K018: data.K018,
-          K019: data.K019,
-          K020: data.K020,
-          K021: data.K021,
-          K022: data.K022,
-          K023: data.K023,
-          K024: data.K024,
-          K025: data.K025,
-          K026: data.K026,
-          K027: data.K027,
-          K028: data.K028,
-          K029: data.K029,
-          K030: data.K030
-        }))
-      });
-    });
-  };
-
-  getDataUser = () => {
-    const URL = this.props.URL;
-    getUsers(URL).then(response => {
-      this.setState({
-        dataUser: response.data.map(data => ({
-          nip_nim: data.nip_nim,
-          name: data.name
-        }))
-      });
-      // console.log(this.state.dataUser);
-    });
-  };
-
-  getPenilaian = () => {
-    const { dataUser, questions } = this.props;
-    console.log(questions);
-    // const Q = hitungQuestions(this.props.questions, this.props.dataUser);
-    // const A = dapatkanNilai(this.props.dataUser, this.props.questions);
-    for (let a = 0; a < dataUser.length; a++) {
-      // console.log(a, users[a].nip_nim);
-      let P1 = 0;
-      let P2 = 0;
-      let P3 = 0;
-      let P4 = 0;
-      for (let i = 0; i < questions.length; i++) {
-        if (dataUser[a].nip_nim === questions[i].nip_nim) {
-          let q = questions[i];
-          let role_id = questions[i].role_id;
-          let K001 = role_id === 1 ? q.K001 : 0;
-          let K002 = role_id === 1 ? q.K002 : 0;
-          let K003 = role_id === 1 ? q.K003 : 0;
-          let K004 = role_id === 1 ? q.K004 : 0;
-          let K005 = q.K005;
-          let K006 = q.K006;
-          let K007 = q.K007;
-          let K008 = q.K008;
-          let K009 = q.K009;
-          let K010 = q.K010;
-          let K011 = q.K011;
-          let K012 = q.K012;
-          let K013 = q.K013;
-          let K014 = q.K014;
-          let K015 = q.K015;
-          let K016 = q.K016;
-          let K017 = q.K017;
-          let K018 = q.K018;
-          let K019 = q.K019;
-          let K020 = q.K020;
-          let K021 = q.K021;
-          let K022 = q.K022;
-          let K023 = q.K023;
-          let K024 = q.K024;
-          let K025 = q.K025;
-          let K026 = q.K026;
-          let K027 = q.K027;
-          let K028 = q.K028;
-          let K029 = q.K029;
-          let K030 = q.K030;
-
-          const C1 = HitungC1(K001, K002, K003, K004);
-          const C2 = HitungC2(role_id, K005, K006, K007);
-          const C3 = HitungC3(role_id, K008, K009, K010);
-          const C4 = HitungC4(role_id, K011, K012, K013);
-          const C5 = HitungC5(role_id, K014, K015, K016, K017);
-          const C6 = HitungC6(role_id, K018, K019, K020, K021, K022, K023);
-          const C7 = HitungC7(
-            role_id,
-            K024,
-            K025,
-            K026,
-            K027,
-            K028,
-            K029,
-            K030
-          );
-
-          const TotalNilai =
-            C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
-
-          if (role_id === 1) {
-            P1 = P1 + TotalNilai;
-            // console.log("P1", P1);
-          } else if (role_id === 2) {
-            P2 = P2 + TotalNilai;
-            // console.log("P2", P2);
-          } else if (role_id === 3) {
-            P3 = P3 + TotalNilai;
-            // console.log("P3", P3);
-          } else if (role_id === 4) {
-            P4 = P4 + TotalNilai;
-            // console.log("P4", P4);
-          }
-
-          const hasil = hitungHasil(TotalNilai);
-
-          // console.log(C1)
-          console.log(
-            i,
-            dataUser[a].name,
-            questions[i].nip_nim,
-            P1,
-            P2,
-            P3,
-            P4
-          );
-        }
-      }
-    }
-    // console.log(Q);
-    return null;
-  };
+  // componentDidUpdate(prevProps, prevState) {
+  // }
 
   getDetilPenilaian = nip_nim => {
     const URL = this.props.URL;
@@ -283,7 +34,6 @@ class TablePenilaian extends React.Component {
           total: data.total.toFixed(1)
         }))
       });
-      // console.log(this.state.detilPenilaian);
     });
     return null;
   };
@@ -321,160 +71,23 @@ class TablePenilaian extends React.Component {
     if (record) {
       this.getDetilPenilaian(nip_nim);
       this.setState({
-        tabelUtama: false,
-        tabelDetil: true
+        tabelUtama: false
       });
     } else if (!record) {
       this.setState({
-        tabelUtama: true,
-        tabelDetil: false
+        tabelUtama: true
       });
     }
   };
 
-  getDataC = () => {
-    this.state.rawPertanyaan.map(data => {
-      const role_id = data.role_id;
-      const K001 = role_id === 1 ? data.K001 : 0;
-      const K002 = role_id === 1 ? data.K002 : 0;
-      const K003 = role_id === 1 ? data.K003 : 0;
-      const K004 = role_id === 1 ? data.K004 : 0;
-      const K005 = data.K005;
-      const K006 = data.K006;
-      const K007 = data.K007;
-      const K008 = data.K008;
-      const K009 = data.K009;
-      const K010 = data.K010;
-      const K011 = data.K011;
-      const K012 = data.K012;
-      const K013 = data.K013;
-      const K014 = data.K014;
-      const K015 = data.K015;
-      const K016 = data.K016;
-      const K017 = data.K017;
-      const K018 = data.K018;
-      const K019 = data.K019;
-      const K020 = data.K020;
-      const K021 = data.K021;
-      const K022 = data.K022;
-      const K023 = data.K023;
-      const K024 = data.K024;
-      const K025 = data.K025;
-      const K026 = data.K026;
-      const K027 = data.K027;
-      const K028 = data.K028;
-      const K029 = data.K029;
-      const K030 = data.K030;
-
-      const C1 = HitungC1(K001, K002, K003, K004);
-      const TotalC1 = C1.K1 + C1.K2 + C1.K3 + C1.K4;
-
-      const C2 = HitungC2(role_id, K005, K006, K007);
-      const TotalC2 = C2.K5 + C2.K6 + C2.K7;
-
-      const C3 = HitungC3(role_id, K008, K009, K010);
-      const TotalC3 = C3.K8 + C3.K9 + C3.K10;
-
-      const C4 = HitungC4(role_id, K011, K012, K013);
-      const TotalC4 = C4.K11 + C4.K12 + C4.K13;
-
-      const C5 = HitungC5(role_id, K014, K015, K016, K017);
-      // const TotalC5 = C5.K14 + C5.K15 + C5.K16 + C5.K17;
-      const TotalC5 = C5.K14 + C5.K15 + C5.K16 + C5.K17;
-
-      const C6 = HitungC6(role_id, K018, K019, K020, K021, K022, K023);
-      const TotalC6 = C6.K18 + C6.K19 + C6.K20 + C6.K21 + C6.K22 + C6.K23;
-
-      const C7 = HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030);
-      const TotalC7 =
-        C7.K24 + C7.K25 + C7.K26 + C7.K27 + C7.K28 + C7.K29 + C7.K30;
-
-      const TotalNilai =
-        TotalC1 + TotalC2 + TotalC3 + TotalC4 + TotalC5 + TotalC6 + TotalC7;
-      const hasil = function hasil() {
-        if (TotalNilai > 20) {
-          return "Sangat Bagus Sekali";
-        } else if (TotalNilai === 20 && TotalNilai > 18) {
-          return "Bagus Sekali";
-        } else if (TotalNilai === 18 && TotalNilai > 14) {
-          return "Bagus";
-        } else if (TotalNilai === 14 && TotalNilai > 10) {
-          return "Cukup Bagus";
-        } else if (TotalNilai < 11) {
-          return "Sangat Tidak Bagus";
-        }
-      };
-
-      // Untuk mendapatkan total penilaian, gunakan Tabel Pertanyaan
-      // Lalu ambil nama/id user bersangkutan
-      // Pengulangan sebanyak 4x
-      //            role id 1, 2, 3, 4
-      //
-      //
-
-      // let allUsers = [
-      //   (user_1 = {
-      //     P1: role_id_1,
-      //     P2: role_id_2,
-      //     P3: role_id_3
-      //   }),
-      //   (user_2 = {
-      //     P1: role_id_1,
-      //     P2: role_id_2,
-      //     P3: role_id_3
-      //   })
-      // ];
-
-      getUser(this.props.URL, data.user_id).then(response => {
-        const nip_nim = response.data[0].nip_nim;
-        const name = response.data[0].name;
-        this.state.hasilPenilaian.push({
-          user_id: nip_nim,
-          name: name,
-          TotalC1: TotalC1.toFixed(2),
-          TotalC2: TotalC2.toFixed(2),
-          TotalC3: TotalC3.toFixed(2),
-          TotalC4: TotalC4.toFixed(2),
-          TotalC5: TotalC5.toFixed(2),
-          TotalC6: TotalC6.toFixed(2),
-          TotalC7: TotalC7.toFixed(2),
-          TotalNilai: TotalNilai.toFixed(2)
-        });
-      });
-      return null;
-    });
-  };
-
-  tes = () => {
-    this.props.questions.forEach(function(qItem) {
-      console.log(qItem);
-    });
-  };
-
-  tes2 = () => {
-    this.props.dataUser.forEach(function(uItem) {
-      console.log(uItem.nip_nim);
-      // this.tes();
-      let tes_nip = this.props.questions.map(data => {
-        return data;
-        // var res = qItem.map(function(o) {
-        //   console.log(res);
-        //   return null;
-        // });
-        // console.log(res[0]);
-      });
-      console.log(tes_nip);
-    });
-  };
-
   render() {
-    // console.log(this.state.hasilPenilaian);
-    // console.log(this.props.currentUser);
+    const { dataUser, questions } = this.props;
+    const dataTotal = dapatkanNilai(dataUser, questions);
+    console.log(this.state.tabelDetil);
 
     let {
       sortedInfo,
       // filteredInfo,
-      dataPenilaian,
       tabelDetil,
       tabelUtama,
       detilPenilaian
@@ -581,31 +194,32 @@ class TablePenilaian extends React.Component {
 
     return (
       <div>
-        <div className="table-operations">
-          <Button
-            onClick={this.onChangeTable.bind(this, 0, false)}
-            style={{ marginBottom: 10 }}
-          >
-            Kembali ke Daftar Penilaian All Users
-          </Button>
-        </div>
+        <div className="table-operations" />
         {tabelUtama ? (
           <Table
             columns={columns}
-            dataSource={dataPenilaian}
+            dataSource={dataTotal}
             onChange={this.handleChange}
             // Warning: Each record in table should have a unique `key` prop,
             // or set `rowKey` to an unique primary key.
             rowKey="nip_nim" //to prevent error above
           />
-        ) : tabelDetil ? (
-          <Table
-            columns={columnDetail}
-            dataSource={detilPenilaian}
-            onChange={this.handleChange}
-            rowKey="nip_nim"
-          />
-        ) : null}
+        ) : (
+          <div>
+            <Button
+              onClick={this.onChangeTable.bind(this, 0, false)}
+              style={{ marginBottom: 10 }}
+            >
+              Kembali ke Daftar Penilaian
+            </Button>
+            <Table
+              columns={columnDetail}
+              dataSource={detilPenilaian}
+              onChange={this.handleChange}
+              rowKey="nip_nim"
+            />
+          </div>
+        )}
       </div>
     );
   }

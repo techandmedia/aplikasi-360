@@ -141,13 +141,13 @@ export function hitungHasil(TotalNilai) {
   if (TotalNilai > 20) {
     let hasil = "Sangat Bagus Sekali";
     return hasil;
-  } else if (TotalNilai === 20 && TotalNilai > 18) {
+  } else if (TotalNilai < 21 && TotalNilai > 18) {
     let hasil = "Bagus Sekali";
     return hasil;
-  } else if (TotalNilai === 18 && TotalNilai > 14) {
+  } else if (TotalNilai < 19 && TotalNilai > 14) {
     let hasil = "Bagus";
     return hasil;
-  } else if (TotalNilai === 14 && TotalNilai > 10) {
+  } else if (TotalNilai < 15 && TotalNilai > 10) {
     let hasil = "Cukup Bagus";
     return hasil;
   } else if (TotalNilai < 11) {
