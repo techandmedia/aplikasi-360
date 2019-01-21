@@ -1,8 +1,5 @@
 import React from "react";
 import { Form, Icon, Input, Col, Row, Button, Card } from "antd";
-
-// import { NormalCard as Card } from "../Basic Component/Card";
-// import { BaseButton as Button } from "../Basic Component/Button";
 import { success, error } from "../Basic/InformationModal";
 
 import { loginUser } from "../Fetch/PostData";
@@ -65,7 +62,6 @@ class SignIn extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    // const { onRouteChange } = this.props;
 
     return (
       <Row

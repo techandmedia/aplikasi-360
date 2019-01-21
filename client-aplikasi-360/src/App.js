@@ -6,7 +6,7 @@ import CreateResponden from "./Form/CreateResponden";
 import UserDashboard from "./Dashboard/UserDashboard";
 import SignIn from "./Form/Signin";
 import AdminDashboard from "./Dashboard/AdminDashboard";
-// import AdminDashboard from "AdminDasboard";
+import HomeDashboard from "./Dashboard/HomeDashboard";
 
 import { dapatkanNilai } from "./Calcultaion/filter";
 import { getResponden, getRole, getQuestions, getUsers } from "./Fetch/GetData";
@@ -18,16 +18,16 @@ import { getResponden, getRole, getQuestions, getUsers } from "./Fetch/GetData";
 // import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
-// import Dashboard from "./Dashboard/UserDashboard";
 
 const URL =
   process.env.NODE_ENV === "production" ? Config.prodURL : Config.devURL;
 
 class App extends React.Component {
   state = {
+    siderStatus: "header",
     visible: false,
     status: false,
-    route: "admin-dashboard",
+    route: "home",
     currentUser: {
       full_name: "Eko Andri",
       user_id: 97,
@@ -271,9 +271,13 @@ class App extends React.Component {
         },
         isSignedIn: true
       });
-    } else if (route === "admin") {
+    } else if (route === "signin") {
       this.setState({
-        route: "admin"
+        route: "signin"
+      });
+    } else if (route === "register") {
+      this.setState({
+        route: "register"
       });
     } else if (route === "admin-dashboard") {
       this.setState({
@@ -302,6 +306,8 @@ class App extends React.Component {
     }
   };
 
+  // Ini fungsi supaya pada saat lebar layar kurang dari 415px
+  // dan tombol collapsed nya ditekan, maka title{display: none}
   onSiderChange = event => {
     const screenWidth = window.innerWidth;
     if (!event && screenWidth < 415) {
@@ -323,7 +329,8 @@ class App extends React.Component {
       currentUser,
       isSignedIn,
       dataUser,
-      questions
+      questions,
+      siderStatus
     } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // const { Sider, Content, Footer } = Layout;
@@ -332,25 +339,28 @@ class App extends React.Component {
     // console.log(offices);
 
     return (
-      // <h1>Tes</h1>
-      <MainLayout onSiderChange={onSiderChange}>
+      <MainLayout
+        onSiderChange={onSiderChange}
+        onRouteChange={onRouteChange}
+        header={
+          <TopNavigation
+            siderStatus={siderStatus}
+            onRouteChange={onRouteChange}
+          />
+        }
+      >
         {route === "admin-dashboard" ? (
-          // <Col sm={{ span: 12, offset: 0 }}>
           <AdminDashboard
             URL={URL}
             currentUser={currentUser}
             dataUser={dataUser}
             questions={questions}
           />
-        ) : // </Col>
-        route === "admin" ? (
+        ) : route === "signin" ? (
           <SignIn URL={URL} loadUser={loadUser} onRouteChange={onRouteChange} />
         ) : route === "dashboard" ? (
-          // <Col sm={{ span: 24, offset: 0 }}>
           <UserDashboard currentUser={currentUser} URL={URL} />
-        ) : // </Col>
-        route === "home" ? (
-          // <Col sm={{ span: 24, offset: 0 }}>
+        ) : route === "register" ? (
           <CreateResponden
             URL={URL}
             getUser={getUser}
@@ -358,14 +368,7 @@ class App extends React.Component {
             onRouteChange={onRouteChange}
           />
         ) : (
-          // </Col>
-          // <Col sm={{ span: 24, offset: 0 }}>
-          <CreateResponden
-            URL={URL}
-            getUser={getUser}
-            getDataResponden={getDataResponden}
-          />
-          // </Col>
+          <HomeDashboard onRouteChange={onRouteChange} />
         )}
       </MainLayout>
       // <Layout style={{ height: "100vh" }}>

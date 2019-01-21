@@ -56,15 +56,7 @@ export default class MainLayout extends React.Component {
           >
             <Menu.Item key="home">
               <Icon type="user" />
-              <span className="nav-text">Peta Dakwah</span>
-            </Menu.Item>
-            <Menu.Item key="dai">
-              <Icon type="video-camera" />
-              <span className="nav-text">Cari Dai</span>
-            </Menu.Item>
-            <Menu.Item key="khotib">
-              <Icon type="upload" />
-              <span className="nav-text">Cari Khotib</span>
+              <span className="nav-text">Home</span>
             </Menu.Item>
             <Menu.Item key="register">
               <Icon type="user" />
