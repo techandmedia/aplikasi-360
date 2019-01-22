@@ -83,7 +83,7 @@ class TablePenilaian extends React.Component {
   render() {
     const { dataUser, questions } = this.props;
     const dataTotal = dapatkanNilai(dataUser, questions);
-    console.log(this.state.tabelDetil);
+    console.log(dataTotal);
 
     let {
       sortedInfo,
