@@ -9,7 +9,6 @@ async function getNilai(URL) {
   const users = await getUsers(URL);
   const questions = await getQuestions(URL);
   const nilai = dapatkanNilai(users, questions);
-  // console.log(users, questions, nilai);
   return nilai;
 }
 
@@ -18,28 +17,22 @@ class TablePenilaian extends React.Component {
     filteredInfo: null,
     sortedInfo: null,
     tabelUtama: true,
-    // detilPenilaian: [],
     dataTotal: [],
     dataDetail: [],
-    nilai: [],
-    // questions: getDataQuestions(this.props.URL),
-    // dataUser: getDataUser(this.props.URL),
-    status: false
   };
 
   componentDidMount() {
     const nilai = getNilai(this.props.URL);
     nilai.then(data => {
-      // console.log(data);
       this.setState({
         dataTotal: data
       });
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.nilai)
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(this.state.nilai)
+  // }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -116,11 +109,10 @@ class TablePenilaian extends React.Component {
 
     let {
       sortedInfo
-      // filteredInfo,
     } = this.state;
 
     sortedInfo = sortedInfo || {};
-    // filteredInfo = filteredInfo || {};
+    
     const columns = [
       {
         title: "NIP/NIM",
