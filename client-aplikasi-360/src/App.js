@@ -8,8 +8,8 @@ import SignIn from "./Form/Signin";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import HomeDashboard from "./Dashboard/HomeDashboard";
 
-import { dapatkanNilai } from "./Calcultaion/filter";
-import { getResponden, getRole, getQuestions, getUsers } from "./Fetch/GetData";
+// import { dapatkanNilai } from "./Calcultaion/filter";
+import { getResponden, getRole,} from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
 
 // import { hitungQuestions } from "./Calcultaion/filter";
@@ -27,7 +27,7 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "home",
+    route: "admin-dashboard",
     currentUser: {
       full_name: "Eko Andri",
       user_id: 97,
@@ -35,10 +35,7 @@ class App extends React.Component {
       role_id: 1
     },
     isSignedIn: false,
-    collapsed: true,
-    dataUser: [],
-    questions: [],
-    dataPenilaian: []
+    collapsed: true
   };
 
   // Binding function in onClick or onSubmit
@@ -61,8 +58,6 @@ class App extends React.Component {
   // ===============  Life Cycle Hooks ===========================
 
   componentDidMount() {
-    this.getDataUser();
-    this.getDataQuestions();
     // this.setState({
     //   status: true
     // });
@@ -79,79 +74,6 @@ class App extends React.Component {
     // }
   }
 
-  getDataQuestions = () => {
-    getQuestions(URL).then(res => {
-      // console.log(res.data);
-      this.setState({
-        questions: res.data.map(data => ({
-          nip_nim: data.nip_nim,
-          responden_id: data.responden_id,
-          role_id: data.role_id,
-          K001: data.K001,
-          K002: data.K002,
-          K003: data.K003,
-          K004: data.K004,
-          K005: data.K005,
-          K006: data.K006,
-          K007: data.K007,
-          K008: data.K008,
-          K009: data.K009,
-          K010: data.K010,
-          K011: data.K011,
-          K012: data.K012,
-          K013: data.K013,
-          K014: data.K014,
-          K015: data.K015,
-          K016: data.K016,
-          K017: data.K017,
-          K018: data.K018,
-          K019: data.K019,
-          K020: data.K020,
-          K021: data.K021,
-          K022: data.K022,
-          K023: data.K023,
-          K024: data.K024,
-          K025: data.K025,
-          K026: data.K026,
-          K027: data.K027,
-          K028: data.K028,
-          K029: data.K029,
-          K030: data.K030
-        }))
-      });
-    });
-  };
-
-  getDataUser = () => {
-    getUsers(URL).then(response => {
-      this.setState({
-        dataUser: response.data.map(data => ({
-          nip_nim: data.nip_nim,
-          name: data.name
-        }))
-      });
-      // console.log(this.state.dataUser);
-    });
-  };
-
-  getDataNilai = () => {
-    const { dataUser, questions } = this.state;
-    console.log(questions);
-    console.log(dataUser);
-    this.setState({
-      dataPenilaian: dapatkanNilai(dataUser, questions).map(data => ({
-        nip_nim: data.nip_nim,
-        name: data.name,
-        p1: data.P1,
-        p2: data.P2,
-        p3: data.P3,
-        p4: data.P4,
-        total: data.total,
-        hasil: data.hasil
-      }))
-    });
-    // return null;
-  };
 
   // =============================================================
 
@@ -328,15 +250,11 @@ class App extends React.Component {
       route,
       currentUser,
       isSignedIn,
-      dataUser,
-      questions,
       siderStatus
     } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // const { Sider, Content, Footer } = Layout;
     const { onSiderChange } = this;
-    // console.log(questions);
-    // console.log(offices);
 
     return (
       <MainLayout
@@ -353,8 +271,8 @@ class App extends React.Component {
           <AdminDashboard
             URL={URL}
             currentUser={currentUser}
-            dataUser={dataUser}
-            questions={questions}
+            // dataUser={dataUser}
+            // questions={questions}
           />
         ) : route === "signin" ? (
           <SignIn URL={URL} loadUser={loadUser} onRouteChange={onRouteChange} />
@@ -371,146 +289,6 @@ class App extends React.Component {
           <HomeDashboard onRouteChange={onRouteChange} />
         )}
       </MainLayout>
-      // <Layout style={{ height: "100vh" }}>
-      //   <TopNavigation
-      //     currentUser={currentUser}
-      //     onRouteChange={onRouteChange}
-      //     isSignedIn={isSignedIn}
-      //   />
-      //   <Layout>
-      //     <Sider
-      //       collapsible
-      //       collapsed={this.state.collapsed}
-      //       onCollapse={this.onCollapse}
-      //     >
-      //       <div
-      //       // style={{
-      //       //   display: "flex",
-      //       //   justifyContent: "center",
-      //       //   alignItems: "center"
-      //       // }}
-      //       >
-      //         <Col span={24}>
-      //           <Row>
-      //             <h3 style={{ textAlign: "center", marginTop: 20 }}>
-      //               {currentUser.full_name}
-      //             </h3>
-      //           </Row>
-      //           <Row>
-      //             <p style={{ textAlign: "center" }}>{currentUser.role_name}</p>
-      //           </Row>
-      //         </Col>
-      //       </div>
-      //     </Sider>
-      //     <Layout>
-      //       <Content>
-      //         <Row
-      //           type="flex"
-      //           justify="center"
-      //           style={{
-      //             // marginTop: "1em",
-      //             padding: "1em"
-      //           }}
-      //         >
-      //           {route === "admin-dashboard" ? (
-      //             <Col sm={{ span: 12, offset: 0 }}>
-      //               <AdminDashboard
-      //                 URL={URL}
-      //                 currentUser={currentUser}
-      //                 dataUser={dataUser}
-      //                 questions={questions}
-      //               />
-      //             </Col>
-      //           ) : route === "admin" ? (
-      //             <SignIn
-      //               URL={URL}
-      //               loadUser={loadUser}
-      //               onRouteChange={onRouteChange}
-      //             />
-      //           ) : route === "dashboard" ? (
-      //             <Col sm={{ span: 24, offset: 0 }}>
-      //               <UserDashboard currentUser={currentUser} URL={URL} />
-      //             </Col>
-      //           ) : route === "home" ? (
-      //             <Col sm={{ span: 24, offset: 0 }}>
-      //               {/* <h1>Tes</h1> */}
-      //               <CreateResponden
-      //                 URL={URL}
-      //                 getUser={getUser}
-      //                 getDataResponden={getDataResponden}
-      //                 onRouteChange={onRouteChange}
-      //               />
-      //             </Col>
-      //           ) : (
-      //             <Col sm={{ span: 24, offset: 0 }}>
-      //               {/* <h1>Tes</h1> */}
-      //               <CreateResponden
-      //                 URL={URL}
-      //                 getUser={getUser}
-      //                 getDataResponden={getDataResponden}
-      //               />
-      //             </Col>
-      //           )}
-      //         </Row>
-      //       </Content>
-      //       <Footer>Footer</Footer>
-      //     </Layout>
-      //   </Layout>
-      // </Layout>
-      // // <Layout>
-      //   <TopNavigation
-      // currentUser={currentUser}
-      // onRouteChange={onRouteChange}
-      // isSignedIn={isSignedIn}
-      //   />
-      // <Row
-      //   type="flex"
-      //   justify="center"
-      //   style={{
-      //     // marginTop: "1em",
-      //     padding: "1em"
-      //   }}
-      // >
-      //   {route === "admin-dashboard" ? (
-      //     <Col sm={{ span: 12, offset: 0 }}>
-      //       <AdminDashboard URL={URL} />
-      //     </Col>
-      //   ) : route === "admin" ? (
-      //     <SignIn
-      //       URL={URL}
-      //       loadUser={loadUser}
-      //       onRouteChange={onRouteChange}
-      //     />
-      //   ) : route === "dashboard" ? (
-      //     <Col sm={{ span: 24, offset: 0 }}>
-      //       <UserDashboard currentUser={currentUser} URL={URL} />
-      //     </Col>
-      //   ) : route === "home" ? (
-      //     <Col sm={{ span: 24, offset: 0 }}>
-      //       {/* <h1>Tes</h1> */}
-      //       <CreateResponden
-      //         URL={URL}
-      //         getUser={getUser}
-      //         getDataResponden={getDataResponden}
-      //       />
-      //     </Col>
-      //   ) : (
-      //     <Col sm={{ span: 24, offset: 0 }}>
-      //       {/* <h1>Tes</h1> */}
-      //       <CreateResponden
-      //         URL={URL}
-      //         getUser={getUser}
-      //         getDataResponden={getDataResponden}
-      //       />
-      //     </Col>
-      //   )}
-      // </Row>
-      //   {/* <ModalDeletion
-      //     visible={visible}
-      //     handleModalOk={handleModalOk}
-      //     handleModalCancel={handleModalCancel}
-      //   /> */}
-      // </Layout>
     );
   }
 }

@@ -9,7 +9,11 @@ const per = "pertanyaan";
 const q = "questions";
 
 export function getQuestions(URL) {
-  return axios.get(URL + `api/${q}`);
+  const data = axios.get(URL + `api/${q}`).then(res => {
+    return res.data;
+    // console.log(res.data);
+  });
+  return data;
 }
 
 export function getPertanyaan(URL) {
@@ -32,7 +36,11 @@ export function getCheckDuplicate(URL, nip_nim, responden_id) {
 }
 
 export function getUsers(URL) {
-  return axios.get(URL + `api/${us}`);
+  const data = axios.get(URL + `api/${us}`).then(res => {
+    return res.data;
+    // console.log(res.data);
+  });
+  return data;
 }
 
 export function getUser(URL, user_id) {

@@ -207,21 +207,21 @@ export function dapatkanNilai(users, questions) {
       nilaiP.push({
         nip_nim: users[a].nip_nim,
         name: users[a].name,
-        P1: totalP1.toFixed(1),
-        P2: totalP2.toFixed(1),
-        P3: totalP3.toFixed(1),
-        P4: totalP4.toFixed(1),
+        p1: totalP1.toFixed(1),
+        p2: totalP2.toFixed(1),
+        p3: totalP3.toFixed(1),
+        p4: totalP4.toFixed(1),
         total: TotalP.toFixed(1),
         hasil: hasil
       });
-      console.log(
-        users[a].name,
-        totalP1.toFixed(1),
-        totalP2.toFixed(1),
-        totalP3.toFixed(1),
-        totalP4.toFixed(1),
-        TotalP.toFixed(1)
-      );
+      // console.log(
+      //   users[a].name,
+      //   totalP1.toFixed(1),
+      //   totalP2.toFixed(1),
+      //   totalP3.toFixed(1),
+      //   totalP4.toFixed(1),
+      //   TotalP.toFixed(1)
+      // );
     }
     P1 = 0;
     P2 = 0;

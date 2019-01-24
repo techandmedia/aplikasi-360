@@ -1,21 +1,86 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Button } from "antd";
 
+// import { getDetailPenilaian } from "../Fetch/PostData";
 import { getQuestions, getUsers } from "../Fetch/GetData";
 
 import { dapatkanNilai } from "../Calcultaion/filter";
 
+function getDataQuestions(URL) {
+  const questions = getQuestions(URL).then(res => {
+    const data = res.data;
+    for (let i = 0; i < data.length; i++) {
+      questions.push({
+        nip_nim: data[i].nip_nim,
+        responden_id: data[i].responden_id,
+        role_id: data[i].role_id,
+        K001: data[i].K001,
+        K002: data[i].K002,
+        K003: data[i].K003,
+        K004: data[i].K004,
+        K005: data[i].K005,
+        K006: data[i].K006,
+        K007: data[i].K007,
+        K008: data[i].K008,
+        K009: data[i].K009,
+        K010: data[i].K010,
+        K011: data[i].K011,
+        K012: data[i].K012,
+        K013: data[i].K013,
+        K014: data[i].K014,
+        K015: data[i].K015,
+        K016: data[i].K016,
+        K017: data[i].K017,
+        K018: data[i].K018,
+        K019: data[i].K019,
+        K020: data[i].K020,
+        K021: data[i].K021,
+        K022: data[i].K022,
+        K023: data[i].K023,
+        K024: data[i].K024,
+        K025: data[i].K025,
+        K026: data[i].K026,
+        K027: data[i].K027,
+        K028: data[i].K028,
+        K029: data[i].K029,
+        K030: data[i].K030
+      });
+    }
+  });
+  console.log(questions);
+  return questions.data;
+}
+
+function getDataUser(URL) {
+  const users = [];
+  getUsers(URL).then(res => {
+    const data = res.data;
+    for (let i = 0; i < data.length; i++) {
+      users.push({
+        nip_nim: data[i].nip_nim,
+        name: data[i].name
+      });
+    }
+  });
+  return users;
+}
+
 async function getNilai(URL) {
-  const users = await getUsers(URL);
+  const users = await getDataUser(URL);
   const questions = await getQuestions(URL);
   const nilai = dapatkanNilai(users, questions);
-  // console.log(users, questions, nilai);
+  console.log(users, questions, nilai);
   return nilai;
 }
 
-class TablePenilaian extends React.Component {
+function TablePenilaian (){
+  const [filteredInfo, setFilteredInfo]=useState(null)
+  function clearFilters () {
+    setFilteredInfo( null );
+  };
+  const[sortedInfo, setSortedInfo]=useState(null)
+  
   state = {
-    filteredInfo: null,
     sortedInfo: null,
     tabelUtama: true,
     // detilPenilaian: [],
@@ -28,18 +93,34 @@ class TablePenilaian extends React.Component {
   };
 
   componentDidMount() {
+    // for(let i=0;i<)
+    // this.state.nilai.push();
+    // this.setState({
+    //   nilai: getNilai(this.props.URL)
+    // });
+    // console.log(nilai);
+    // getNilai(URL);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const nilai = getNilai(this.props.URL);
-    nilai.then(data => {
-      // console.log(data);
+    console.log(this.state.nilai);
+    // this.getDapatkanNilai();
+    // this.setState({
+    //   dataTotal: this.getDapatkanNilai()
+    // });
+    // console.log(this.state.dataTotal);
+  }
+
+  getDapatkanNilai = () => {
+    const nilai = dapatkanNilai(this.state.dataUser, this.state.questions);
+    console.log(this.state.dataUser);
+    nilai.map(data => {
       this.setState({
         dataTotal: data
       });
     });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.nilai)
-  }
+  };
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -49,9 +130,7 @@ class TablePenilaian extends React.Component {
     });
   };
 
-  clearFilters = () => {
-    this.setState({ filteredInfo: null });
-  };
+  
 
   clearAll = () => {
     this.setState({
@@ -110,9 +189,11 @@ class TablePenilaian extends React.Component {
     }
   };
 
-  render() {
+  // render() {
     const { tabelUtama, dataTotal, dataDetail } = this.state;
-    
+
+    const nilai = getNilai(this.props.URL);
+    console.log(nilai);
 
     let {
       sortedInfo
@@ -251,7 +332,7 @@ class TablePenilaian extends React.Component {
         )}
       </div>
     );
-  }
+  // }
 }
 
 export default TablePenilaian;
