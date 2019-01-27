@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mySQL = require("../config/config-MySQL");
 
-const pp = "penilaian_penilai";
+const rr = "responden";
 const per = "pertanyaan";
 const q = "questions";
 
@@ -21,14 +21,14 @@ exports.getQuestions = router.get(`/api/${q}`, (req, res) => {
   });
 });
 
-// ========== Cek ke tabel penilaian _penilai untuk duplikat entry ========
+// ========== Cek ke tabel questions untuk duplikat entry ========
 // Cek dari tabel penilaian_penilai, apakah nim dan user id sama/sudah pernah diisi
-exports.getPertanyaan = router.post(`/api/${pp}_nip_nim`, (req, res) => {
+exports.getPertanyaan = router.post(`/api/${q}_duplicate`, (req, res) => {
   const responden_id = req.body.responden_id;
   const nip_nim = req.body.nip_nim;
-  // console.log(req.body);
+  console.log(req.body);
   mySQL.query(
-    `SELECT * FROM penilaian_penilai WHERE responden_id=? AND nip_nim=?`,
+    `SELECT * FROM questions WHERE responden_id=? AND nip_nim=?`,
     [responden_id, nip_nim],
     (err, results) => {
       if (err) {

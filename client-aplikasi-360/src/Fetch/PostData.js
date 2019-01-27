@@ -34,11 +34,12 @@ export function postPenilai(
   });
 }
 
-export function postResponden(URL, nip_nim, full_name, role_id) {
+export function postResponden(URL, nip_nim, full_name, role_id, password) {
   return axios.post(URL + `api/${rs}_new`, {
     nip_nim: nip_nim,
     full_name: full_name,
-    role_id: role_id
+    role_id: role_id,
+    password: password
   });
 }
 
@@ -257,7 +258,14 @@ export function postPenilaianSendiri(
 }
 
 // ==== LOGIN ==================================
-export function loginUser(URL, admin_name, admin_pass) {
+export function loginResponden(URL, responden_id, password) {
+  return axios.post(URL + "api/responden_login", {
+    responden_id: responden_id,
+    password: password
+  });
+}
+
+export function loginAdmin(URL, admin_name, admin_pass) {
   return axios.post(URL + "api/admin_login", {
     admin_name: admin_name,
     admin_pass: admin_pass

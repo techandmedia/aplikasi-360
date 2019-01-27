@@ -15,6 +15,8 @@ export default class MainLayout extends React.Component {
     });
     if (e.key === "signin") {
       this.props.onRouteChange("signin");
+    } else if (e.key === "user-login") {
+      this.props.onRouteChange("user-login");
     } else if (e.key === "register") {
       this.props.onRouteChange("register");
     } else if (e.key === "logout") {
@@ -64,7 +66,18 @@ export default class MainLayout extends React.Component {
             </Menu.Item>
             <Menu.Item key="signin">
               <Icon type="user" />
-              <span className="nav-text">Login</span>
+              <span className="nav-text">Admin Login</span>
+            </Menu.Item>
+            <Menu.Item key="user-login">
+              <Icon type="user" />
+              <span className="nav-text">Responden Login</span>
+            </Menu.Item>
+            <Menu.Item key="hr">
+              <hr />
+            </Menu.Item>
+            <Menu.Item key="logout">
+              <Icon type="logout" />
+              <span className="nav-text">Logout</span>
             </Menu.Item>
           </Menu>
         </Sider>

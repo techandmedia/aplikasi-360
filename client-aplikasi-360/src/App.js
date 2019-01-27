@@ -9,12 +9,13 @@ import AdminDashboard from "./Dashboard/AdminDashboard";
 import HomeDashboard from "./Dashboard/HomeDashboard";
 
 // import { dapatkanNilai } from "./Calcultaion/filter";
-import { getResponden, getRole,} from "./Fetch/GetData";
+import {
+  getResponden,
+  getRole,
+  getRepondenID,
+  getRoleID
+} from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
-
-// import { hitungQuestions } from "./Calcultaion/filter";
-
-// import ModalDeletion from "./Basic/ModalDeletion";
 // import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
 import "./App.css";
@@ -27,15 +28,16 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "admin-dashboard",
+    route: "user-dashboard",
     currentUser: {
-      full_name: "Eko Andri",
-      user_id: 97,
-      role_name: "Pimpinan",
-      role_id: 1
+      full_name: "",
+      user_id: null,
+      role_name: "",
+      role_id: null
     },
     isSignedIn: false,
-    collapsed: true
+    collapsed: true,
+    admin: true
   };
 
   // Binding function in onClick or onSubmit
@@ -63,17 +65,7 @@ class App extends React.Component {
     // });
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    // this.handleUpdateChange();
-    // if (prevState.status !== this.state.status) {
-    //   console.log("prevState.status", prevState.status);
-    //   console.log("thisstate.status", this.state.status);
-    //   console.log(this.state.questions);
-    //   console.log(this.state.dataUser);
-    //   this.getDataNilai();
-    // }
-  }
-
+  componentDidUpdate(prevProps, prevState) {}
 
   // =============================================================
 
@@ -101,17 +93,22 @@ class App extends React.Component {
     this.setState({ collapsed });
   };
 
-  loadUser = data => {
-    console.log(data);
-    // this.setState({
-    //   users: {
-    //     id: data.id,
-    //     first_name: data.first_name,
-    //     last_name: data.last_name,
-    //     email: data.email,
-    //     role: data.role
-    //   }
-    // });
+  loadUser = responden_id => {
+    getRepondenID(URL, responden_id).then(res => {
+      const data = res.data[0];
+      // console.log(data);
+      getRoleID(URL, data.role_id).then(resp => {
+        // console.log(resp)
+        const rolename = resp.data[0].role_name;
+        this.setState({
+          currentUser: {
+            responden_id: data.responden_id,
+            full_name: data.full_name,
+            role_name: rolename
+          }
+        });
+      });
+    });
   };
 
   getDataRole = () => {
@@ -195,7 +192,15 @@ class App extends React.Component {
       });
     } else if (route === "signin") {
       this.setState({
-        route: "signin"
+        route: "signin",
+        admin: true,
+        isSignedIn: true
+      });
+    } else if (route === "user-login") {
+      this.setState({
+        route: "user-login",
+        admin: false,
+        isSignedIn: true
       });
     } else if (route === "register") {
       this.setState({
@@ -210,6 +215,11 @@ class App extends React.Component {
       this.setState({
         route: "home",
         isSignedIn: false
+      });
+    } else if (route === "user-dashboard") {
+      this.setState({
+        route: "user-dashboard",
+        isSignedIn: true
       });
     }
   };
@@ -246,12 +256,7 @@ class App extends React.Component {
   // =============== Render ===========================================
 
   render() {
-    const {
-      route,
-      currentUser,
-      isSignedIn,
-      siderStatus
-    } = this.state;
+    const { route, currentUser, isSignedIn, siderStatus, admin } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // const { Sider, Content, Footer } = Layout;
     const { onSiderChange } = this;
@@ -260,6 +265,7 @@ class App extends React.Component {
       <MainLayout
         onSiderChange={onSiderChange}
         onRouteChange={onRouteChange}
+        isSignedIn={isSignedIn}
         header={
           <TopNavigation
             siderStatus={siderStatus}
@@ -274,9 +280,14 @@ class App extends React.Component {
             // dataUser={dataUser}
             // questions={questions}
           />
-        ) : route === "signin" ? (
-          <SignIn URL={URL} loadUser={loadUser} onRouteChange={onRouteChange} />
-        ) : route === "dashboard" ? (
+        ) : route === "signin" || route === "user-login" ? (
+          <SignIn
+            URL={URL}
+            loadUser={loadUser}
+            admin={admin}
+            onRouteChange={onRouteChange}
+          />
+        ) : route === "user-dashboard" ? (
           <UserDashboard currentUser={currentUser} URL={URL} />
         ) : route === "register" ? (
           <CreateResponden

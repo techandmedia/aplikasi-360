@@ -6,7 +6,6 @@ const rs = "responden";
 const pt = "penilaian_teladan";
 const ps = "penilaian_sendiri";
 const us = "users";
-const ad = "admin";
 const pp = "penilaian_penilai";
 const pp2 = "penilaian_penilai2";
 const per = "pertanyaan";
@@ -30,6 +29,30 @@ exports.getUsers = router.get(`/api/${us}`, (req, res) => {
     if (err) console.log(err);
     res.send(JSON.stringify(results));
   });
+});
+
+// ============== Get Responden ================================
+exports.getResponden = router.get(`/api/${rs}/:id`, (req, res) => {
+  mySQL.query(
+    `SELECT * FROM ${rs} WHERE responden_id=?`,
+    [req.params.id],
+    (err, results) => {
+      if (err) console.log(err);
+      res.send(JSON.stringify(results));
+    }
+  );
+});
+
+exports.getRoleID = router.get(`/api/role/:id`, (req, res) => {
+  // console.log(req.params);
+  mySQL.query(
+    `SELECT * FROM role WHERE role_id=?`,
+    [req.params.id],
+    (err, results) => {
+      if (err) console.log(err);
+      res.send(JSON.stringify(results));
+    }
+  );
 });
 
 // ============== Get Responden ================================
@@ -123,50 +146,10 @@ exports.getPertanyaan = router.get(`/api/${per}`, (req, res) => {
   });
 });
 
-// ============== Post Login  =======================================
-exports.postResponden = router.post(`/api/${ad}_login`, (req, res, next) => {
-  const admin_name = req.body.admin_name;
-  const admin_pass = req.body.admin_pass;
-  // console.log("post Login", admin_name, admin_pass);
-  mySQL.query(`SELECT * FROM ${ad} WHERE admin_name=?`, [admin_name], function(
-    err,
-    results,
-    fields
-  ) {
-    if (err) {
-      res.send({
-        code: 400,
-        failed: "error ocurred"
-      });
-    } else {
-      if (results.length > 0) {
-        if (results[0].admin_pass === admin_pass) {
-          // console.log(JSON.stringify(results));
-          res.send(JSON.stringify(results));
-          // res.send({
-          //   code: 200,
-          //   success: "login sucessfull"
-          // });
-        } else {
-          res.send({
-            code: 204,
-            success: "Email and password does not match"
-          });
-        }
-      } else {
-        res.send({
-          code: 205,
-          success: "Email does not exits"
-        });
-      }
-    }
-  });
-});
-
 // ============== Post Penilaian Sendiri ================================
 exports.postOffice = router.post(`/api/${ps}_new`, (req, res, next) => {
   const postData = req.body;
-  console.log('169',postData);
+  console.log("169", postData);
   mySQL.query(`INSERT INTO ${ps} SET ?`, postData, (err, results, fields) => {
     if (!err) {
       res.send({

@@ -6,6 +6,7 @@ const pt = "penilaian_teladan";
 const us = "users";
 const pp = "penilaian_penilai";
 const per = "pertanyaan";
+const rr = "responden"
 const q = "questions";
 
 export function getQuestions(URL) {
@@ -28,23 +29,31 @@ export function getPenilaianPenilai(URL) {
   return axios.get(URL + `api/${pp}`);
 }
 
-export function getCheckDuplicate(URL, nip_nim, responden_id) {
-  return axios.post(URL + `api/${pp}_nip_nim`, {
-    nip_nim: nip_nim,
-    responden_id: responden_id
+export function getCheckDuplicate(URL, responden_id, nip_nim) {
+  return axios.post(URL + `api/${q}_duplicate`, {
+    responden_id: responden_id,
+    nip_nim: nip_nim
   });
 }
 
 export function getUsers(URL) {
   const data = axios.get(URL + `api/${us}`).then(res => {
-    return res.data;
     // console.log(res.data);
+    return res;
   });
   return data;
 }
 
 export function getUser(URL, user_id) {
   return axios.get(URL + `api/${us}/${user_id}`);
+}
+
+export function getRepondenID(URL, responden_id) {
+  return axios.get(URL + `api/${rs}/${responden_id}`);
+}
+
+export function getRoleID(URL, role_id) {
+  return axios.get(URL + `api/role/${role_id}`);
 }
 
 export function getRole(URL) {

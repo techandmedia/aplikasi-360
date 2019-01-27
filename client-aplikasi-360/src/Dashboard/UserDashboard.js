@@ -29,6 +29,10 @@ import {
 import { postPertanyaan, postPenilai } from "../Fetch/PostData";
 import { formItemLayout, tailFormItemLayout } from "../Basic/FormLayout";
 import { info, success, warning } from "../Basic/InformationModal";
+import Config from "../Fetch/ConfigData";
+
+const URL =
+  process.env.NODE_ENV === "production" ? Config.prodURL : Config.devURL;
 
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
@@ -42,7 +46,6 @@ class Dashboard extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.currentUser);
     this.getDataSoal();
     this.getDataUsers();
     this.getDataRole();
@@ -56,7 +59,7 @@ class Dashboard extends React.Component {
   };
 
   getDataRole = () => {
-    getRole(this.props.URL).then(response => {
+    getRole(URL).then(response => {
       this.setState({
         role: response.data.map(data => ({
           id: data.role_id,
@@ -69,7 +72,7 @@ class Dashboard extends React.Component {
   };
 
   getDataSoal = () => {
-    getSoal(this.props.URL).then(result => {
+    getSoal(URL).then(result => {
       // console.log(result);
       this.setState({
         soal: result.data.map(data => ({
@@ -83,7 +86,7 @@ class Dashboard extends React.Component {
   };
 
   getDataUsers = () => {
-    const URL = this.props.URL;
+    // const URL = this.props.URL;
     getUsers(URL).then(result => {
       // console.log(result.data);
       this.setState({
@@ -101,13 +104,13 @@ class Dashboard extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, fieldsValue) => {
-      // console.log(fieldsValue);
-      let responden_id = this.props.currentUser.user_id;
+      console.log(fieldsValue);
+      let responden_id = this.props.currentUser.responden_id;
       let nip_nim = fieldsValue.user_id[0]; // nip_nim
       // let user_id = fieldsValue.user_id[0];
       let role_id = fieldsValue.role[0];
-      const URL = this.props.URL;
-      console.log(responden_id);
+      // const URL = this.props.URL;
+      // console.log(responden_id);
       let K001 = role_id === 1 ? fieldsValue.K001 : 0;
       let K002 = role_id === 1 ? fieldsValue.K002 : 0;
       let K003 = role_id === 1 ? fieldsValue.K003 : 0;
@@ -164,13 +167,12 @@ class Dashboard extends React.Component {
         return null;
       } else {
         // Check duplicate
-        getCheckDuplicate(URL, nip_nim, responden_id).then(res => {
+        getCheckDuplicate(URL, responden_id, nip_nim).then(res => {
           const code = res.data.code;
           const message = res.data.success;
-          console.log(code, message);
+          console.log(message);
           // Kalau code === 200, tidak ada duplikasi, isi data
           if (code === 200) {
-            // Tabel pertanyaan
             postPertanyaan(
               URL,
               nip_nim,
