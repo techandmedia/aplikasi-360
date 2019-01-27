@@ -5,12 +5,12 @@ import { getQuestions, getUsers } from "../Fetch/GetData";
 
 import { dapatkanNilai } from "../Calcultaion/filter";
 
-async function getNilai(URL) {
-  const users = await getUsers(URL);
-  const questions = await getQuestions(URL);
-  const nilai = dapatkanNilai(users, questions);
-  return nilai;
-}
+// async function getNilai(URL) {
+//   const users = await getUsers(URL);
+//   const questions = await getQuestions(URL);
+//   const nilai = dapatkanNilai(users, questions);
+//   return nilai;
+// }
 
 class TablePenilaian extends React.Component {
   state = {
@@ -18,21 +18,27 @@ class TablePenilaian extends React.Component {
     sortedInfo: null,
     tabelUtama: true,
     dataTotal: [],
-    dataDetail: [],
+    dataDetail: []
   };
 
   componentDidMount() {
-    const nilai = getNilai(this.props.URL);
-    nilai.then(data => {
+    this.getDataNilai();
+  }
+
+  getDataNilai = () => {
+    this.getNilai(this.props.URL).then(data => {
       this.setState({
         dataTotal: data
       });
     });
-  }
+  };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(this.state.nilai)
-  // }
+  async getNilai(URL) {
+    const users = await getUsers(URL);
+    const questions = await getQuestions(URL);
+    return dapatkanNilai(users, questions);
+    // return nilai;
+  }
 
   handleChange = (pagination, filters, sorter) => {
     console.log("Various parameters", pagination, filters, sorter);
@@ -105,14 +111,11 @@ class TablePenilaian extends React.Component {
 
   render() {
     const { tabelUtama, dataTotal, dataDetail } = this.state;
-    
 
-    let {
-      sortedInfo
-    } = this.state;
+    let { sortedInfo } = this.state;
 
     sortedInfo = sortedInfo || {};
-    
+
     const columns = [
       {
         title: "NIP/NIM",
@@ -125,32 +128,47 @@ class TablePenilaian extends React.Component {
         title: "Nama",
         dataIndex: "name",
         key: "name",
-        sorter: (a, b) => a.name.length - b.name.length,
-        sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order,
+        // sorter: (a, b) => a.name.length - b.name.length,
+        // sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order,
+        render: (text, record) => <span>{record.name}</span>
+      },
+      {
+        title: "Total Penilaian 360",
+        dataIndex: "total",
+        key: "total",
         render: (text, record) => (
           <span>
             <span
               onClick={this.onChangeTable.bind(this, record.nip_nim, true)}
               style={{ cursor: "pointer" }}
             >
-              {record.name}
+              {record.total}
             </span>
           </span>
-        )
-      },
-      {
-        title: "Total Nilai P",
-        dataIndex: "total",
-        key: "total",
+        ),
         sorter: (a, b) => a.total - b.total,
         sortOrder: sortedInfo.columnKey === "total" && sortedInfo.order
       },
       {
+        title: "Total Penilaian SAW",
+        dataIndex: "totalSaw",
+        key: "totalSaw",
+        sorter: (a, b) => a.totalSaw - b.totalSaw,
+        sortOrder: sortedInfo.columnKey === "totalSaw" && sortedInfo.order
+      },
+      {
+        title: "Ranking SAW",
+        dataIndex: "ranking",
+        key: "ranking",
+        sorter: (a, b) => a.ranking - b.ranking,
+        sortOrder: sortedInfo.columnKey === "ranking" && sortedInfo.order
+      },
+      {
         title: "Hasil",
         dataIndex: "hasil",
-        key: "hasil",
-        sorter: (a, b) => a.name.length - b.name.length,
-        sortOrder: sortedInfo.columnKey === "hasil" && sortedInfo.order
+        key: "hasil"
+        // sorter: (a, b) => a.name.length - b.name.length,
+        // sortOrder: sortedInfo.columnKey === "hasil" && sortedInfo.order
       }
     ];
 
@@ -214,33 +232,39 @@ class TablePenilaian extends React.Component {
     return (
       <div>
         <div className="table-operations" />
-        {tabelUtama ? (
-          <React.Suspense fallback={<div>Loading....</div>}>
-            <Table
-              columns={columns}
-              dataSource={dataTotal}
-              onChange={this.handleChange}
-              // Warning: Each record in table should have a unique `key` prop,
-              // or set `rowKey` to an unique primary key.
-              rowKey="nip_nim" //to prevent error above
-            />
-          </React.Suspense>
-        ) : (
-          <div>
-            <Button
-              onClick={this.onChangeTable.bind(this, 0, false)}
-              style={{ marginBottom: 10 }}
-            >
-              Kembali ke Daftar Penilaian
-            </Button>
-            <Table
-              columns={columnDetail}
-              dataSource={dataDetail}
-              onChange={this.handleChange}
-              rowKey="nip_nim"
-            />
-          </div>
-        )}
+        {(() => {
+          if (tabelUtama) {
+            return (
+              <React.Suspense fallback={<div>Loading....</div>}>
+                <Table
+                  columns={columns}
+                  dataSource={dataTotal}
+                  onChange={this.handleChange}
+                  // Warning: Each record in table should have a unique `key` prop,
+                  // or set `rowKey` to an unique primary key.
+                  rowKey="nip_nim" //to prevent error above
+                />
+              </React.Suspense>
+            );
+          } else {
+            return (
+              <div>
+                <Button
+                  onClick={this.onChangeTable.bind(this, 0, false)}
+                  style={{ marginBottom: 10 }}
+                >
+                  Kembali ke Daftar Penilaian
+                </Button>
+                <Table
+                  columns={columnDetail}
+                  dataSource={dataDetail}
+                  onChange={this.handleChange}
+                  rowKey="nip_nim"
+                />
+              </div>
+            );
+          }
+        })()}
       </div>
     );
   }

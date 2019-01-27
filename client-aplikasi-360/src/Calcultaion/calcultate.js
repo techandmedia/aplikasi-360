@@ -138,20 +138,86 @@ export function HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030) {
 }
 
 export function hitungHasil(TotalNilai) {
-  if (TotalNilai > 20) {
+  if (TotalNilai >= 20) {
     let hasil = "Sangat Bagus Sekali";
     return hasil;
-  } else if (TotalNilai < 21 && TotalNilai > 18) {
+  } else if (TotalNilai >= 18) {
     let hasil = "Bagus Sekali";
     return hasil;
-  } else if (TotalNilai < 19 && TotalNilai > 14) {
+  } else if (TotalNilai >= 14) {
     let hasil = "Bagus";
     return hasil;
-  } else if (TotalNilai < 15 && TotalNilai > 10) {
+  } else if (TotalNilai >= 10) {
     let hasil = "Cukup Bagus";
     return hasil;
-  } else if (TotalNilai < 11) {
+  } else if (TotalNilai < 10) {
     let hasil = "Sangat Tidak Bagus";
     return hasil;
+  }
+}
+
+export function cariRangking(totalSaw) {
+  let nilai = parseFloat(totalSaw);
+  console.log(nilai);
+  if (nilai >= 1.74) {
+    return 1;
+  } else if (totalSaw >= 1.67) {
+    return 2;
+  } else if (totalSaw >= 1.63) {
+    return 3;
+  } else if (totalSaw >= 1.6) {
+    return 4;
+  } else if (totalSaw >= 1.58) {
+    return 5;
+  } else if (totalSaw >= 1.57) {
+    return 6;
+  } else if (totalSaw >= 1.56) {
+    return 7;
+  } else if (totalSaw >= 1.53) {
+    return 8;
+  } else if (totalSaw >= 1.51) {
+    return 9;
+  } else if (totalSaw >= 1.48) {
+    return 10;
+  } else if (totalSaw >= 1.47) {
+    return 11;
+  } else if (totalSaw >= 1.46) {
+    return 12;
+  } else if (totalSaw >= 1.44) {
+    return 13;
+  } else if (totalSaw >= 1.4) {
+    return 14;
+  } else if (totalSaw >= 1.39) {
+    return 15;
+  } else if (totalSaw >= 1.37) {
+    return 16;
+  } else if (totalSaw >= 1.36) {
+    return 17;
+  } else if (totalSaw >= 1.35) {
+    return 18;
+  } else if (totalSaw >= 1.32) {
+    return 19;
+  } else if (totalSaw >= 1.31) {
+    return 20;
+  } else if (totalSaw >= 1.29) {
+    return 21;
+  } else if (totalSaw >= 1.28) {
+    return 22;
+  } else if (totalSaw >= 1.27) {
+    return 23;
+  } else if (totalSaw >= 1.23) {
+    return 24;
+  } else if (totalSaw >= 1.22) {
+    return 25;
+  } else if (totalSaw >= 1.18) {
+    return 26;
+  } else if (totalSaw >= 1.17) {
+    return 27;
+  } else if (totalSaw >= 1.15) {
+    return 28;
+  } else if (totalSaw >= 1.13) {
+    return 29;
+  } else if (totalSaw <= 1.10) {
+    return 30;
   }
 }

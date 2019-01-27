@@ -10,8 +10,8 @@ const q = "questions";
 
 export function getQuestions(URL) {
   const data = axios.get(URL + `api/${q}`).then(res => {
+    console.log(res.data);
     return res.data;
-    // console.log(res.data);
   });
   return data;
 }
