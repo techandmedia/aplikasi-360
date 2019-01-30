@@ -158,7 +158,6 @@ export function hitungHasil(TotalNilai) {
 
 export function cariRangking(totalSaw) {
   let nilai = parseFloat(totalSaw);
-  console.log(nilai);
   if (nilai >= 1.74) {
     return 1;
   } else if (totalSaw >= 1.67) {

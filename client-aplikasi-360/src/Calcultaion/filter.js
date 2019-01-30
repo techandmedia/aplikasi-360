@@ -25,7 +25,6 @@ export function dapatkanNilai(users, questions) {
   let C7Rank = 0;
   let pimpinanCounter = 0;
   let counterUserQuestions = 0;
-  // console.log(users)
   for (let a = 0; a < users.length; a++) {
     // console.log(a, users[a].nip_nim);
     let roleSatu = 0;

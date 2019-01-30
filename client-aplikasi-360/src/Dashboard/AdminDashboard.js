@@ -25,7 +25,12 @@ class TablePenilaian extends React.Component {
   };
 
   componentDidMount() {
+    // console.log(this.props);
     this.getDataNilai();
+  }
+
+  componentDidUpdate() {
+    // this.getDataNilai();
   }
 
   getDataNilai = () => {
@@ -40,7 +45,6 @@ class TablePenilaian extends React.Component {
     const users = await getUsers(URL);
     const questions = await getQuestions(URL);
     return dapatkanNilai(users, questions);
-    // return nilai;
   }
 
   handleChange = (pagination, filters, sorter) => {

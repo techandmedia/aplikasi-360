@@ -6,12 +6,11 @@ const pt = "penilaian_teladan";
 const us = "users";
 const pp = "penilaian_penilai";
 const per = "pertanyaan";
-const rr = "responden"
 const q = "questions";
 
 export function getQuestions(URL) {
   const data = axios.get(URL + `api/${q}`).then(res => {
-    console.log(res.data);
+    // console.log(res.data);
     return res.data;
   });
   return data;
@@ -39,7 +38,7 @@ export function getCheckDuplicate(URL, responden_id, nip_nim) {
 export function getUsers(URL) {
   const data = axios.get(URL + `api/${us}`).then(res => {
     // console.log(res.data);
-    return res;
+    return res.data;
   });
   return data;
 }

@@ -13,11 +13,14 @@ import {
   getResponden,
   getRole,
   getRepondenID,
-  getRoleID
+  getRoleID,
+  getQuestions,
+  getUsers
 } from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
 // import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
+import { dapatkanNilai } from "./Calcultaion/filter";
 import "./App.css";
 
 const URL =
@@ -28,7 +31,7 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "home",
+    route: "admin-dashboard",
     currentUser: {
       full_name: "",
       user_id: null,
@@ -63,11 +66,33 @@ class App extends React.Component {
     // this.setState({
     //   status: true
     // });
+    // this.getDataNilai();
   }
 
   componentDidUpdate(prevProps, prevState) {}
 
   // =============================================================
+
+  getDataNilai = () => {
+    this.getNilai(URL).then(data => {
+      this.setState({
+        dataTotal: data
+      });
+    });
+  };
+
+  async getNilai(URL) {
+    console.log(1);
+    // console.log(URL);
+    const users = await getUsers(URL);
+    // console.log(users);
+    console.log(2);
+    const questions = await getQuestions(URL);
+    console.log(3);
+    const abc = dapatkanNilai(users, questions);
+    console.log(3);
+    return abc;
+  }
 
   // =========== Get Data from API ===============================
 
@@ -256,7 +281,14 @@ class App extends React.Component {
   // =============== Render ===========================================
 
   render() {
-    const { route, currentUser, isSignedIn, siderStatus, admin } = this.state;
+    const {
+      route,
+      currentUser,
+      isSignedIn,
+      siderStatus,
+      admin,
+      dataTotal
+    } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // const { Sider, Content, Footer } = Layout;
     const { onSiderChange } = this;
@@ -277,6 +309,7 @@ class App extends React.Component {
           <AdminDashboard
             URL={URL}
             currentUser={currentUser}
+            dataTotal={dataTotal}
             // dataUser={dataUser}
             // questions={questions}
           />

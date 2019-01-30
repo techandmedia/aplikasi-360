@@ -48,7 +48,7 @@ class SignIn extends React.Component {
               );
             } else if (admin_name) {
               success("Sukses", "Anda berhasil log in");
-              this.props.loadUser(admin_name);
+              // this.props.loadUser(admin_name);
               this.props.onRouteChange("admin-dashboard");
             } else {
               alert(
