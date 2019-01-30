@@ -8,19 +8,15 @@ import SignIn from "./Form/Signin";
 import AdminDashboard from "./Dashboard/AdminDashboard";
 import HomeDashboard from "./Dashboard/HomeDashboard";
 
-// import { dapatkanNilai } from "./Calcultaion/filter";
 import {
   getResponden,
   getRole,
   getRepondenID,
-  getRoleID,
-  getQuestions,
-  getUsers
+  getRoleID
 } from "./Fetch/GetData";
 // import { postUser } from "./Fetch/PostData";
 // import { info, success } from "./Basic/InformationModal";
 import Config from "./Fetch/ConfigData";
-import { dapatkanNilai } from "./Calcultaion/filter";
 import "./App.css";
 
 const URL =
@@ -31,7 +27,7 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "admin-dashboard",
+    route: "home",
     currentUser: {
       full_name: "",
       user_id: null,
@@ -62,37 +58,11 @@ class App extends React.Component {
 
   // ===============  Life Cycle Hooks ===========================
 
-  componentDidMount() {
-    // this.setState({
-    //   status: true
-    // });
-    // this.getDataNilai();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps, prevState) {}
 
   // =============================================================
-
-  getDataNilai = () => {
-    this.getNilai(URL).then(data => {
-      this.setState({
-        dataTotal: data
-      });
-    });
-  };
-
-  async getNilai(URL) {
-    console.log(1);
-    // console.log(URL);
-    const users = await getUsers(URL);
-    // console.log(users);
-    console.log(2);
-    const questions = await getQuestions(URL);
-    console.log(3);
-    const abc = dapatkanNilai(users, questions);
-    console.log(3);
-    return abc;
-  }
 
   // =========== Get Data from API ===============================
 
@@ -218,14 +188,12 @@ class App extends React.Component {
     } else if (route === "signin") {
       this.setState({
         route: "signin",
-        admin: true,
-        isSignedIn: true
+        admin: true
       });
     } else if (route === "user-login") {
       this.setState({
         route: "user-login",
-        admin: false,
-        isSignedIn: true
+        admin: false
       });
     } else if (route === "register") {
       this.setState({
@@ -234,6 +202,9 @@ class App extends React.Component {
     } else if (route === "admin-dashboard") {
       this.setState({
         route: "admin-dashboard",
+        currentUser: {
+          full_name: "Administrator"
+        },
         isSignedIn: true
       });
     } else if (route === "home") {
@@ -281,14 +252,7 @@ class App extends React.Component {
   // =============== Render ===========================================
 
   render() {
-    const {
-      route,
-      currentUser,
-      isSignedIn,
-      siderStatus,
-      admin,
-      dataTotal
-    } = this.state;
+    const { route, currentUser, isSignedIn, siderStatus, admin } = this.state;
     const { getUser, getDataResponden, loadUser, onRouteChange } = this;
     // const { Sider, Content, Footer } = Layout;
     const { onSiderChange } = this;
@@ -306,13 +270,7 @@ class App extends React.Component {
         }
       >
         {route === "admin-dashboard" ? (
-          <AdminDashboard
-            URL={URL}
-            currentUser={currentUser}
-            dataTotal={dataTotal}
-            // dataUser={dataUser}
-            // questions={questions}
-          />
+          <AdminDashboard URL={URL} currentUser={currentUser} />
         ) : route === "signin" || route === "user-login" ? (
           <SignIn
             URL={URL}

@@ -76,8 +76,19 @@ export default class MainLayout extends React.Component {
               <hr />
             </Menu.Item>
             <Menu.Item key="logout">
-              <Icon type="logout" />
-              <span className="nav-text">Logout</span>
+              {this.props.isSignedIn ? (
+                <span>
+                  <Icon type="logout" />
+                  <span className="nav-text">Logout</span>
+                </span>
+              ) : (
+                <span>
+                  <Icon type="logout" />
+                  <span className="nav-text">
+                    Login
+                  </span>
+                </span>
+              )}
             </Menu.Item>
           </Menu>
         </Sider>

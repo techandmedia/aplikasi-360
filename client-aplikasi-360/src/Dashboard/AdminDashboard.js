@@ -25,12 +25,10 @@ class TablePenilaian extends React.Component {
   };
 
   componentDidMount() {
-    // console.log(this.props);
     this.getDataNilai();
   }
 
   componentDidUpdate() {
-    // this.getDataNilai();
   }
 
   getDataNilai = () => {

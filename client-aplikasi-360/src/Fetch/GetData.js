@@ -37,7 +37,6 @@ export function getCheckDuplicate(URL, responden_id, nip_nim) {
 
 export function getUsers(URL) {
   const data = axios.get(URL + `api/${us}`).then(res => {
-    // console.log(res.data);
     return res.data;
   });
   return data;

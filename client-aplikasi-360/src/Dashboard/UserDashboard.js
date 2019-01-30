@@ -80,23 +80,20 @@ class Dashboard extends React.Component {
           soal: data.soal
         }))
       });
-      // console.log(this.state.soal);
     });
     return null;
   };
 
   getDataUsers = () => {
-    // const URL = this.props.URL;
     getUsers(URL).then(result => {
-      // console.log(result.data);
       this.setState({
-        users: result.data.map(data => ({
+        users: result.map(data => ({
           id: data.nim_nim,
           value: data.nip_nim,
           label: data.name
         }))
       });
-      // console.log(this.state.users);
+      // // console.log(this.state.users);
     });
     return null;
   };

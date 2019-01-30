@@ -45,7 +45,7 @@ class CreateResponden extends React.Component {
 
   getDataSoal = () => {
     getSoal(this.props.URL).then(response => {
-      console.log(response.data);
+      // console.log(response.data);
       this.setState({
         soal: response.data.map(data => ({
           id: data.soal_id,
