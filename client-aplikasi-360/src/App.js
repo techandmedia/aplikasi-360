@@ -27,7 +27,7 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "home",
+    route: "admin-dashboard",
     currentUser: {
       full_name: "",
       user_id: null,

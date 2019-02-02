@@ -12,10 +12,17 @@ import {
 
 export function dapatkanNilai(users, questions) {
   const nilaiP = [];
-  let P1 = 0;
-  let P2 = 0;
-  let P3 = 0;
-  let P4 = 0;
+  // let P1 = 0;
+  // let P2 = 0;
+  // let P3 = 0;
+  // let P4 = 0;
+  let baseC1 = 0;
+  let baseC2 = 0;
+  let baseC3 = 0;
+  let baseC4 = 0;
+  let baseC5 = 0;
+  let baseC6 = 0;
+  let baseC7 = 0;
   let C1Rank = 0;
   let C2Rank = 0;
   let C3Rank = 0;
@@ -74,9 +81,17 @@ export function dapatkanNilai(users, questions) {
         let C6 = HitungC6(role_id, K018, K019, K020, K021, K022, K023);
         let C7 = HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030);
 
-        const TotalNilai =
-          C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
+        // const TotalNilai =
+        //   C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
         // console.log(users[a].name, P1, P2, P3, P4);
+
+        baseC1 = baseC1 + C1;
+        baseC2 = baseC2 + C2;
+        baseC3 = baseC3 + C3;
+        baseC4 = baseC4 + C4;
+        baseC5 = baseC5 + C5;
+        baseC6 = baseC6 + C6;
+        baseC7 = baseC7 + C7;
 
         // ====== Menghitung dengan Methode SAW
         const RankC1 = C1 / 4;
@@ -100,46 +115,71 @@ export function dapatkanNilai(users, questions) {
 
         if (role_id === 1) {
           roleSatu++;
-          P1 = P1 + TotalNilai;
         } else if (role_id === 2) {
           roleDua++;
-          P2 = P2 + TotalNilai;
         } else if (role_id === 3) {
           roleTiga++;
-          P3 = P3 + TotalNilai;
         } else if (role_id === 4) {
           roleEmpat++;
-          P4 = P4 + TotalNilai;
         }
       }
     }
 
     // console.log("###############################", roleSatu, P1 / roleSatu);
 
-    if (P1 > 0 || P2 > 0 || P3 > 0 || P4 > 0) {
-      const totalP1 = P1 / roleSatu;
-      const totalP2 = P2 / roleDua;
-      const totalP3 = P3 / roleTiga;
-      const totalP4 = P4 / roleEmpat;
+    if (baseC1 > 0 || baseC2 > 0) {
+      const totalRole = roleSatu + roleDua + roleTiga + roleEmpat;
+
+      const totalP1 =
+        (baseC1 / roleSatu) * 1 +
+        (baseC2 / totalRole) * 0.4 +
+        (baseC3 / totalRole) * 0.3 +
+        (baseC4 / totalRole) * 0.4 +
+        (baseC5 / totalRole) * 0.4 +
+        (baseC6 / totalRole) * 0.4 +
+        (baseC7 / totalRole) * 0.3;
+
+      const totalP2 = 
+        (baseC2 / totalRole) * 0.3 +
+        (baseC3 / totalRole) * 0.4 +
+        (baseC4 / totalRole) * 0.3 +
+        (baseC5 / totalRole) * 0.3 +
+        (baseC6 / totalRole) * 0.3 +
+        (baseC7 / totalRole) * 0.4;
+
+      const totalP3 = 
+      (baseC2 / totalRole) * 0.2 +
+      (baseC3 / totalRole) * 0.2 +
+      (baseC4 / totalRole) * 0.2 +
+      (baseC5 / totalRole) * 0.2 +
+      (baseC6 / totalRole) * 0.2 +
+      (baseC7 / totalRole) * 0.2;
+
+      const totalP4 = 
+      (baseC2 / totalRole) * 0.1 +
+      (baseC3 / totalRole) * 0.1 +
+      (baseC4 / totalRole) * 0.1 +
+      (baseC5 / totalRole) * 0.1 +
+      (baseC6 / totalRole) * 0.1 +
+      (baseC7 / totalRole) * 0.1;
+
       const TotalP = totalP1 + totalP2 + totalP3 + totalP4;
+
       const hasil = hitungHasil(TotalP.toFixed(1));
 
       // ======= Metode SAW ==============
-      const totalc1 = (C1Rank / pimpinanCounter / 5) * 1;
-      const totalc2 = (C2Rank / counterUserQuestions / 4) * 1;
-      const totalc3 = (C3Rank / counterUserQuestions / 4) * 1;
-      const totalc4 = (C4Rank / counterUserQuestions / 4) * 3;
-      const totalc5 = (C5Rank / counterUserQuestions / 4) * 2;
-      const totalc6 = (C6Rank / counterUserQuestions / 4) * 1;
-      const totalc7 = (C7Rank / counterUserQuestions / 4) * 1;
+      const totalc1 = (baseC1 / pimpinanCounter / 5) * 1;
+      const totalc2 = (baseC2 / counterUserQuestions / 4) * 1;
+      const totalc3 = (baseC3 / counterUserQuestions / 4) * 1;
+      const totalc4 = (baseC4 / counterUserQuestions / 4) * 3;
+      const totalc5 = (baseC5 / counterUserQuestions / 4) * 2;
+      const totalc6 = (baseC6 / counterUserQuestions / 4) * 1;
+      const totalc7 = (baseC7 / counterUserQuestions / 4) * 1;
       const TotalRankSaw =
         totalc1 + totalc2 + totalc3 + totalc4 + totalc5 + totalc6 + totalc7;
-      // console.log(
-      //   TotalRankSaw.toFixed(2),
-      //   cariRangking(TotalRankSaw.toFixed(2))
-      // );
 
       // ====== Metode 360
+      
       nilaiP.push({
         nip_nim: users[a].nip_nim,
         name: users[a].name,
@@ -159,19 +199,11 @@ export function dapatkanNilai(users, questions) {
         ranking: cariRangking(TotalRankSaw.toFixed(2)),
         hasil: hasil
       });
-      // console.log(
-      //   users[a].name,
-      //   totalP1.toFixed(1),
-      //   totalP2.toFixed(1),
-      //   totalP3.toFixed(1),
-      //   totalP4.toFixed(1),
-      //   TotalP.toFixed(1)
-      // );
     }
-    P1 = 0;
-    P2 = 0;
-    P3 = 0;
-    P4 = 0;
+    // P1 = 0;
+    // P2 = 0;
+    // P3 = 0;
+    // P4 = 0;
     C1Rank = 0;
     C2Rank = 0;
     C3Rank = 0;
@@ -181,6 +213,13 @@ export function dapatkanNilai(users, questions) {
     C7Rank = 0;
     pimpinanCounter = 0;
     counterUserQuestions = 0;
+    baseC1 = 0;
+    baseC2 = 0;
+    baseC3 = 0;
+    baseC4 = 0;
+    baseC5 = 0;
+    baseC6 = 0;
+    baseC7 = 0;
   }
   // console.log(nilaiP);
   return nilaiP;
