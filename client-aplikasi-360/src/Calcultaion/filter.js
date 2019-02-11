@@ -83,7 +83,7 @@ export function dapatkanNilai(users, questions) {
 
         // const TotalNilai =
         //   C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
-        // console.log(users[a].name, P1, P2, P3, P4);
+        console.log(C7);
 
         baseC1 = baseC1 + C1;
         baseC2 = baseC2 + C2;
@@ -127,7 +127,7 @@ export function dapatkanNilai(users, questions) {
 
     // console.log("###############################", roleSatu, P1 / roleSatu);
 
-    if (baseC1 > 0 || baseC2 > 0) {
+    if (baseC1 > 0) {
       const totalRole = roleSatu + roleDua + roleTiga + roleEmpat;
 
       const totalP1 =
@@ -139,7 +139,7 @@ export function dapatkanNilai(users, questions) {
         (baseC6 / totalRole) * 0.4 +
         (baseC7 / totalRole) * 0.3;
 
-      const totalP2 = 
+      const totalP2 =
         (baseC2 / totalRole) * 0.3 +
         (baseC3 / totalRole) * 0.4 +
         (baseC4 / totalRole) * 0.3 +
@@ -147,21 +147,33 @@ export function dapatkanNilai(users, questions) {
         (baseC6 / totalRole) * 0.3 +
         (baseC7 / totalRole) * 0.4;
 
-      const totalP3 = 
-      (baseC2 / totalRole) * 0.2 +
-      (baseC3 / totalRole) * 0.2 +
-      (baseC4 / totalRole) * 0.2 +
-      (baseC5 / totalRole) * 0.2 +
-      (baseC6 / totalRole) * 0.2 +
-      (baseC7 / totalRole) * 0.2;
+      const totalP3 =
+        (baseC2 / totalRole) * 0.2 +
+        (baseC3 / totalRole) * 0.2 +
+        (baseC4 / totalRole) * 0.2 +
+        (baseC5 / totalRole) * 0.2 +
+        (baseC6 / totalRole) * 0.2 +
+        (baseC7 / totalRole) * 0.2;
 
-      const totalP4 = 
-      (baseC2 / totalRole) * 0.1 +
-      (baseC3 / totalRole) * 0.1 +
-      (baseC4 / totalRole) * 0.1 +
-      (baseC5 / totalRole) * 0.1 +
-      (baseC6 / totalRole) * 0.1 +
-      (baseC7 / totalRole) * 0.1;
+      const totalP4 =
+        (baseC2 / totalRole) * 0.1 +
+        (baseC3 / totalRole) * 0.1 +
+        (baseC4 / totalRole) * 0.1 +
+        (baseC5 / totalRole) * 0.1 +
+        (baseC6 / totalRole) * 0.1 +
+        (baseC7 / totalRole) * 0.1;
+
+      console.log(
+        baseC1 / roleSatu,
+        baseC2 / totalRole,
+        baseC3 / totalRole,
+        baseC4 / totalRole,
+        baseC5 / totalRole,
+        baseC6 / totalRole,
+        baseC7 / totalRole,
+        totalRole
+      );
+      console.log(totalP1, totalP2, totalP3, totalP4);
 
       const TotalP = totalP1 + totalP2 + totalP3 + totalP4;
 
@@ -179,7 +191,7 @@ export function dapatkanNilai(users, questions) {
         totalc1 + totalc2 + totalc3 + totalc4 + totalc5 + totalc6 + totalc7;
 
       // ====== Metode 360
-      
+
       nilaiP.push({
         nip_nim: users[a].nip_nim,
         name: users[a].name,
