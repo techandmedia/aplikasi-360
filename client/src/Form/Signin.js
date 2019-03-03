@@ -16,13 +16,13 @@ class SignIn extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   console.log(this.props.admin);
-  // }
+  componentDidMount() {
+    console.log(this.props.admin);
+  }
 
-  // componentDidUpdate() {
-  //   console.log(this.props.admin);
-  // }
+  componentDidUpdate() {
+    console.log(this.props.admin);
+  }
 
   handleSubmit = e => {
     e.preventDefault();
@@ -31,6 +31,7 @@ class SignIn extends React.Component {
       const admin_pass = values.password;
       const responden_id = values.admin;
       const password = values.password;
+      console.log(values)
       if (!err) {
         if (this.props.admin) {
           loginAdmin(this.props.URL, admin_name, admin_pass).then(response => {
@@ -58,8 +59,10 @@ class SignIn extends React.Component {
           });
         } else {
           loginResponden(this.props.URL, responden_id, password).then(response => {
-            // const user = response.data[0];
-            const code = response.data.code;
+            const full_name = response.success[0].full_name;
+            const role_id = response.success[0].role_id
+            const code = response.code;
+            // console.log(response.success[0])
             if (code === 204) {
               error(
                 "NIP/NIM dan Password salah",
@@ -71,9 +74,10 @@ class SignIn extends React.Component {
                 "Silahkan masukkan nip/nim yang sudah terdaftar, atau silahkan register untuk membuat akun baru"
               );
             } else if (responden_id) {
+              console.log(responden_id)
               success("Sukses", "Anda berhasil log in");
-              this.props.loadUser(responden_id);              
-              this.props.onRouteChange("user-dashboard");
+              // this.props.loadUser(responden_id);              
+              this.props.onRouteChange("user-dashboard",responden_id, full_name, role_id);
             } else {
               alert(
                 "Ada sesuatu yang salah dengan diri Anda :). Just Kidding. Mungkin internet Anda sedang error. Coba lagi ya!"
@@ -107,8 +111,8 @@ class SignIn extends React.Component {
               {this.props.admin ? (
                 <span>Admin Login Page</span>
               ) : (
-                <span>Responden Login Page</span>
-              )}
+                  <span>Responden Login Page</span>
+                )}
             </h3>
 
             <Form onSubmit={this.handleSubmit} className="login-form">
@@ -130,16 +134,12 @@ class SignIn extends React.Component {
                 )}
               </FormItem>
               <FormItem>
-                {getFieldDecorator("password", {
-                  rules: [
-                    { required: true, message: "Please input your Password!" }
-                  ]
-                })(
+                {getFieldDecorator("password")(
                   <Input
                     prefix={
                       <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                     }
-                    type="password"
+                    type="text"
                     placeholder="Password"
                   />
                 )}

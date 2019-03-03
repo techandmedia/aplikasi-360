@@ -36,7 +36,7 @@ export function postPenilai(
 
 export function postResponden(URL, nip_nim, full_name, role_id, password) {
   return axios.post(URL + `api/${rs}_new`, {
-    nip_nim: nip_nim,
+    responden_id: nip_nim,
     full_name: full_name,
     role_id: role_id,
     password: password
@@ -78,7 +78,7 @@ export function postPertanyaan(
   K028,
   K029,
   K030,
-  date
+  // date
 ) {
   // console.log(K001, K030);
 
@@ -117,7 +117,7 @@ export function postPertanyaan(
     K028: K028,
     K029: K029,
     K030: K030,
-    date_created: date
+    // date_created: date
   });
 }
 
@@ -258,14 +258,21 @@ export function postPenilaianSendiri(
 }
 
 // ==== LOGIN ==================================
-export function loginResponden(URL, responden_id, password) {
-  return axios.post(URL + "api/responden_login", {
+export async function loginResponden(URL, responden_id, password) {
+  // console.log(responden_id, password)
+  const data = await axios.post(URL + "api/responden_login", {
     responden_id: responden_id,
     password: password
+  }).then(res => {
+    console.log(res.data)
+    return res.data
   });
+  // console.log(data)
+  return data
 }
 
 export function loginAdmin(URL, admin_name, admin_pass) {
+  console.log(admin_name, admin_pass)
   return axios.post(URL + "api/admin_login", {
     admin_name: admin_name,
     admin_pass: admin_pass

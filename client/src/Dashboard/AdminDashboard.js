@@ -371,7 +371,7 @@ class TablePenilaian extends React.Component {
         {(() => {
           if (tabelUtama) {
             return (
-              // <React.Suspense fallback={<div>Loading....</div>}>
+              <React.Suspense fallback={<div>Loading....</div>}>
                 <Table
                   columns={columns}
                   dataSource={dataTotal}
@@ -380,7 +380,7 @@ class TablePenilaian extends React.Component {
                   // or set `rowKey` to an unique primary key.
                   rowKey="nip_nim" //to prevent error above
                 />
-              // </React.Suspense>
+              </React.Suspense>
             );
           } else if (!tabelUtama && tabel360) {
             return (

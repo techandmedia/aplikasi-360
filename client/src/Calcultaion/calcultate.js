@@ -165,16 +165,16 @@ export function HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030) {
 
 export function hitungHasil(TotalNilai) {
   if (TotalNilai >= 20) {
-    let hasil = "Sangat Bagus Sekali";
-    return hasil;
-  } else if (TotalNilai >= 18) {
     let hasil = "Bagus Sekali";
     return hasil;
-  } else if (TotalNilai >= 14) {
+  } else if (TotalNilai >= 18) {
     let hasil = "Bagus";
     return hasil;
-  } else if (TotalNilai >= 10) {
+  } else if (TotalNilai >= 14) {
     let hasil = "Cukup Bagus";
+    return hasil;
+  } else if (TotalNilai >= 10) {
+    let hasil = "Tidak Bagus";
     return hasil;
   } else if (TotalNilai < 10) {
     let hasil = "Sangat Tidak Bagus";

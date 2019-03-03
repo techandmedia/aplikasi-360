@@ -55,7 +55,7 @@ exports.getPertanyaan = router.post(`/api/${q}_duplicate`, (req, res) => {
 // ============== Post Pertanyaan ==========================================
 exports.postOffice = router.post(`/api/${per}_new`, (req, res, next) => {
   const postData = req.body;
-  // console.log(postData);
+  console.log(postData);
   mySQL.query("INSERT INTO questions SET ?", postData, function(
     err,
     results,

@@ -116,8 +116,8 @@ export default class MainLayout extends React.Component {
               rel="noopener noreferrer"
               style={{ color: "grey" }}
             >
-              Created by Eko Andri Subarnanto <br />
-              <span>Web Developer and Designer</span>
+              {/* Created by Eko Andri Subarnanto <br /> */}
+              {/* <span>Web Developer and Designer</span> */}
             </a>
           </Footer>
         </Layout>

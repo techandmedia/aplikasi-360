@@ -47,7 +47,11 @@ export function getUser(URL, user_id) {
 }
 
 export function getRepondenID(URL, responden_id) {
-  return axios.get(URL + `api/${rs}/${responden_id}`);
+  console.log(responden_id)
+  const data = axios.get(URL + `api/${rs}/${responden_id}`).then(res => {
+    return res.data
+  });
+  console.log(data)
 }
 
 export function getRoleID(URL, role_id) {

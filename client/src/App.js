@@ -27,7 +27,7 @@ class App extends React.Component {
     siderStatus: "header",
     visible: false,
     status: false,
-    route: "admin-dashboard",
+    route: "signin",
     currentUser: {
       full_name: "",
       user_id: null,
@@ -60,7 +60,7 @@ class App extends React.Component {
 
   componentDidMount() {}
 
-  componentDidUpdate(prevProps, prevState) {}
+  componentDidUpdate(prevProps, prevState) { }
 
   // =============================================================
 
@@ -68,17 +68,17 @@ class App extends React.Component {
 
   getDataResponden = (URL, full_name) => {
     getResponden(URL, full_name).then(result => {
-      const data = result.data[0];
-      // console.log(result, full_name);
-      this.setState({
-        currentUser: {
-          id: data.user_id,
-          nip_nim: data.nip_nim,
-          full_name: data.full_name,
-          role_name: data.role_name
-        },
-        route: "dashboard"
-      });
+      // const data = result.data[0];
+      console.log(result, full_name);
+      // this.setState({
+      //   currentUser: {
+      //     id: data.user_id,
+      //     nip_nim: data.responden_id,
+      //     full_name: data.full_name,
+      //     role_name: data.role_name
+      //   },
+      //   route: "dashboard"
+      // });
     });
     return null;
   };
@@ -90,19 +90,19 @@ class App extends React.Component {
 
   loadUser = responden_id => {
     getRepondenID(URL, responden_id).then(res => {
-      const data = res.data[0];
-      // console.log(data);
-      getRoleID(URL, data.role_id).then(resp => {
-        // console.log(resp)
-        const rolename = resp.data[0].role_name;
-        this.setState({
-          currentUser: {
-            responden_id: data.responden_id,
-            full_name: data.full_name,
-            role_name: rolename
-          }
-        });
-      });
+      // const data = res.data[0];
+      console.log(res);
+      // getRoleID(URL, data.role_id).then(resp => {
+      //   console.log(resp)
+      //   const rolename = resp.data[0].role_name;
+      //   this.setState({
+      //     currentUser: {
+      //       responden_id: data.responden_id,
+      //       full_name: data.full_name,
+      //       role_name: rolename
+      //     }
+      //   });
+      // });
     });
   };
 
@@ -181,7 +181,6 @@ class App extends React.Component {
         currentUser: {
           full_name: full_name,
           role_id: role_id,
-          user_id: nip_nim
         },
         isSignedIn: true
       });
@@ -215,12 +214,17 @@ class App extends React.Component {
     } else if (route === "user-dashboard") {
       this.setState({
         route: "user-dashboard",
-        isSignedIn: true
+        isSignedIn: true,
+        currentUser: {
+          responden_id: nip_nim,
+          full_name: full_name,
+          role_id: role_id,
+        },
       });
     }
   };
 
-  handleLogin = () => {};
+  handleLogin = () => { };
 
   // =================================================================
 
@@ -288,8 +292,8 @@ class App extends React.Component {
             onRouteChange={onRouteChange}
           />
         ) : (
-          <HomeDashboard onRouteChange={onRouteChange} />
-        )}
+                  <HomeDashboard onRouteChange={onRouteChange} />
+                )}
       </MainLayout>
     );
   }

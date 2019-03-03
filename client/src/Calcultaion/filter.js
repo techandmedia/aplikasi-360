@@ -9,8 +9,14 @@ import {
   hitungHasil,
   cariRangking
 } from "./calcultate";
+import { getMaxC } from "./c-max-column";
 
 export function dapatkanNilai(users, questions) {
+  const usersForC = users
+  const questionsForC = questions
+  const maxC = getMaxC(usersForC, questionsForC)
+  console.log(maxC)
+
   const nilaiP = [];
   // let P1 = 0;
   // let P2 = 0;
@@ -32,6 +38,7 @@ export function dapatkanNilai(users, questions) {
   let C7Rank = 0;
   let pimpinanCounter = 0;
   let counterUserQuestions = 0;
+  let arrayOffC = [];
   for (let a = 0; a < users.length; a++) {
     // console.log(a, users[a].nip_nim);
     let roleSatu = 0;
@@ -83,7 +90,7 @@ export function dapatkanNilai(users, questions) {
 
         // const TotalNilai =
         //   C1 / 4 + C2 / 3 + C3 / 3 + C4 / 3 + C5 / 4 + C6 / 6 + C7 / 7;
-        console.log(C7);
+        // console.log(users[a].name, P1, P2, P3, P4);
 
         baseC1 = baseC1 + C1;
         baseC2 = baseC2 + C2;
@@ -125,68 +132,81 @@ export function dapatkanNilai(users, questions) {
       }
     }
 
+    // console.log("baseC1",baseC1/roleSatu)
+
     // console.log("###############################", roleSatu, P1 / roleSatu);
 
-    if (baseC1 > 0) {
+    if (baseC1 > 0 || baseC2 > 0) {
       const totalRole = roleSatu + roleDua + roleTiga + roleEmpat;
+
+      // Cari nilai terbesar dari tiap kolom C1-C7
+      // Masukkan ke dalam array
+      arrayOffC.push({
+
+        // c1: (baseC1 / roleSatu),
+        // c2: (baseC2 / totalRole),
+        // c3: (baseC3 / totalRole),
+        // c4: (baseC4 / totalRole),
+        // c5: (baseC5 / totalRole),
+        // c6: (baseC6 / totalRole),
+        // c7: (baseC7 / totalRole)
+
+        c1: (baseC1 / roleSatu).toFixed(2),
+        c2: (baseC2 / totalRole).toFixed(2),
+        c3: (baseC3 / totalRole).toFixed(2),
+        c4: (baseC4 / totalRole).toFixed(2),
+        c5: (baseC5 / totalRole).toFixed(2),
+        c6: (baseC6 / totalRole).toFixed(2),
+        c7: (baseC7 / totalRole).toFixed(2)
+      })
+
+      // console.log(arrayOffC)
 
       const totalP1 =
         (baseC1 / roleSatu) * 1 +
         (baseC2 / totalRole) * 0.4 +
         (baseC3 / totalRole) * 0.3 +
-        (baseC4 / totalRole) * 0.4 +
-        (baseC5 / totalRole) * 0.4 +
+        (baseC4 / totalRole) * 1 + //diganti 1
+        (baseC5 / totalRole) * 1 + //diganti 1
         (baseC6 / totalRole) * 0.4 +
         (baseC7 / totalRole) * 0.3;
 
       const totalP2 =
         (baseC2 / totalRole) * 0.3 +
         (baseC3 / totalRole) * 0.4 +
-        (baseC4 / totalRole) * 0.3 +
-        (baseC5 / totalRole) * 0.3 +
+        (baseC4 / totalRole) * 0.8 + //diganti 0,8
+        (baseC5 / totalRole) * 0.5 + //diganti 0,5
         (baseC6 / totalRole) * 0.3 +
         (baseC7 / totalRole) * 0.4;
 
       const totalP3 =
         (baseC2 / totalRole) * 0.2 +
         (baseC3 / totalRole) * 0.2 +
-        (baseC4 / totalRole) * 0.2 +
-        (baseC5 / totalRole) * 0.2 +
+        (baseC4 / totalRole) * 0.7 + //diganti 0,7
+        (baseC5 / totalRole) * 0.3 + //diganti 0,3
         (baseC6 / totalRole) * 0.2 +
         (baseC7 / totalRole) * 0.2;
 
       const totalP4 =
         (baseC2 / totalRole) * 0.1 +
         (baseC3 / totalRole) * 0.1 +
-        (baseC4 / totalRole) * 0.1 +
-        (baseC5 / totalRole) * 0.1 +
+        (baseC4 / totalRole) * 0.5 + //diganti 0,5
+        (baseC5 / totalRole) * 0.2 + //diganti 0,2
         (baseC6 / totalRole) * 0.1 +
         (baseC7 / totalRole) * 0.1;
-
-      console.log(
-        baseC1 / roleSatu,
-        baseC2 / totalRole,
-        baseC3 / totalRole,
-        baseC4 / totalRole,
-        baseC5 / totalRole,
-        baseC6 / totalRole,
-        baseC7 / totalRole,
-        totalRole
-      );
-      console.log(totalP1, totalP2, totalP3, totalP4);
 
       const TotalP = totalP1 + totalP2 + totalP3 + totalP4;
 
       const hasil = hitungHasil(TotalP.toFixed(1));
 
       // ======= Metode SAW ==============
-      const totalc1 = (baseC1 / pimpinanCounter / 5) * 1;
-      const totalc2 = (baseC2 / counterUserQuestions / 4) * 1;
-      const totalc3 = (baseC3 / counterUserQuestions / 4) * 1;
-      const totalc4 = (baseC4 / counterUserQuestions / 4) * 3;
-      const totalc5 = (baseC5 / counterUserQuestions / 4) * 2;
-      const totalc6 = (baseC6 / counterUserQuestions / 4) * 1;
-      const totalc7 = (baseC7 / counterUserQuestions / 4) * 1;
+      const totalc1 = (baseC1 / pimpinanCounter / maxC[0].maxc1) * 1;
+      const totalc2 = (baseC2 / counterUserQuestions / maxC[0].maxc2) * 1;
+      const totalc3 = (baseC3 / counterUserQuestions / maxC[0].maxc3) * 1;
+      const totalc4 = (baseC4 / counterUserQuestions / maxC[0].maxc4) * 3;
+      const totalc5 = (baseC5 / counterUserQuestions / maxC[0].maxc5) * 2;
+      const totalc6 = (baseC6 / counterUserQuestions / maxC[0].maxc6) * 1;
+      const totalc7 = (baseC7 / counterUserQuestions / maxC[0].maxc7) * 1;
       const TotalRankSaw =
         totalc1 + totalc2 + totalc3 + totalc4 + totalc5 + totalc6 + totalc7;
 
@@ -195,6 +215,22 @@ export function dapatkanNilai(users, questions) {
       nilaiP.push({
         nip_nim: users[a].nip_nim,
         name: users[a].name,
+        // p1: totalP1,
+        // p2: totalP2,
+        // p3: totalP3,
+        // p4: totalP4,
+        // total: TotalP,
+        // totalSaw: TotalRankSaw,
+        // c1: totalc1,
+        // c2: totalc2,
+        // c3: totalc3,
+        // c4: totalc4,
+        // c5: totalc5,
+        // c6: totalc6,
+        // c7: totalc7,
+        // ranking: cariRangking(TotalRankSaw),
+
+        
         p1: totalP1.toFixed(1),
         p2: totalP2.toFixed(1),
         p3: totalP3.toFixed(1),
@@ -225,6 +261,8 @@ export function dapatkanNilai(users, questions) {
     C7Rank = 0;
     pimpinanCounter = 0;
     counterUserQuestions = 0;
+
+    console.log(baseC1/roleSatu)
     baseC1 = 0;
     baseC2 = 0;
     baseC3 = 0;

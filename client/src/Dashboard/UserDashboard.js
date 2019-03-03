@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
       // let user_id = fieldsValue.user_id[0];
       let role_id = fieldsValue.role[0];
       // const URL = this.props.URL;
-      // console.log(responden_id);
+      console.log(responden_id,nip_nim);
       let K001 = role_id === 1 ? fieldsValue.K001 : 0;
       let K002 = role_id === 1 ? fieldsValue.K002 : 0;
       let K003 = role_id === 1 ? fieldsValue.K003 : 0;
@@ -167,7 +167,7 @@ class Dashboard extends React.Component {
         getCheckDuplicate(URL, responden_id, nip_nim).then(res => {
           const code = res.data.code;
           const message = res.data.success;
-          console.log(message);
+          console.log(code);
           // Kalau code === 200, tidak ada duplikasi, isi data
           if (code === 200) {
             postPertanyaan(

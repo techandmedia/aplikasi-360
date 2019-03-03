@@ -97,7 +97,7 @@ exports.getRole = router.get(`/api/role`, (req, res) => {
 // ============== Post Responden ================================
 exports.postResponden = router.post(`/api/${rs}_new`, (req, res, next) => {
   const postData = req.body;
-  // console.log(postData)
+  console.log(postData)
   mySQL.query(`INSERT INTO ${rs} SET ?`, postData, (err, results, fields) => {
     if (!err) {
       res.send({
