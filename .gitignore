@@ -2,26 +2,26 @@
 
 # Aplikasi 360 #
 # dependencies
-client-aplikasi-360/node_modules
-client-aplikasi-360/.pnp
-client-aplikasi-360/.pnp.js
+client/node_modules
+client/.pnp
+client/.pnp.js
 
 # testing
-client-aplikasi-360/coverage
+client/coverage
 
 # production
-client-aplikasi-360/build
+client/build
 
 # misc
-client-aplikasi-360/.DS_Store
-client-aplikasi-360/.env.local
-client-aplikasi-360/.env.development.local
-client-aplikasi-360/.env.test.local
-client-aplikasi-360/.env.production.local
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
 
-client-aplikasi-360/npm-debug.log*
-client-aplikasi-360/yarn-debug.log*
-client-aplikasi-360/yarn-error.log*
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
 
 # =========================================
 
