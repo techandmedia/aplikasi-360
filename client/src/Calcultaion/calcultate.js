@@ -164,19 +164,19 @@ export function HitungC7(role_id, K024, K025, K026, K027, K028, K029, K030) {
 }
 
 export function hitungHasil(TotalNilai) {
-  if (TotalNilai >= 20) {
+  if (TotalNilai >= 30) {
     let hasil = "Bagus Sekali";
     return hasil;
-  } else if (TotalNilai >= 18) {
+  } else if (TotalNilai >= 25) {
     let hasil = "Bagus";
     return hasil;
-  } else if (TotalNilai >= 14) {
+  } else if (TotalNilai >= 20) {
     let hasil = "Cukup Bagus";
     return hasil;
-  } else if (TotalNilai >= 10) {
+  } else if (TotalNilai >= 15) {
     let hasil = "Tidak Bagus";
     return hasil;
-  } else if (TotalNilai < 10) {
+  } else if (TotalNilai < 15) {
     let hasil = "Sangat Tidak Bagus";
     return hasil;
   }
@@ -184,65 +184,65 @@ export function hitungHasil(TotalNilai) {
 
 export function cariRangking(totalSaw) {
   let nilai = parseFloat(totalSaw);
-  if (nilai >= 8) {
+  if (nilai >= 9.74) {
     return 1;
-  } else if (totalSaw >= 7.7) {
+  } else if (nilai >= 9.4) {
     return 2;
-  } else if (totalSaw >= 7.6) {
+  } else if (nilai >= 9.29) {
     return 3;
-  } else if (totalSaw >= 7.5) {
+  } else if (nilai >= 9.28) {
     return 4;
-  } else if (totalSaw >= 7.4) {
+  } else if (nilai >= 9.0) {
     return 5;
-  } else if (totalSaw >= 7.3) {
+  } else if (nilai >= 8.8) {
     return 6;
-  } else if (totalSaw >= 7.2) {
+  } else if (nilai >= 8.7) {
     return 7;
-  } else if (totalSaw >= 7.1) {
+  } else if (nilai >= 8.6) {
     return 8;
-  } else if (totalSaw >= 7.0) {
+  } else if (nilai >= 8.5) {
     return 9;
-  } else if (totalSaw >= 6.9) {
+  } else if (nilai >= 8.4) {
     return 10;
-  } else if (totalSaw >= 6.8) {
+  } else if (nilai >= 8.3) {
     return 11;
-  } else if (totalSaw >= 6.7) {
+  } else if (nilai >= 8.2) {
     return 12;
-  } else if (totalSaw >= 6.6) {
+  } else if (nilai >= 8.1) {
     return 13;
-  } else if (totalSaw >= 6.5) {
+  } else if (nilai >= 8.0) {
     return 14;
-  } else if (totalSaw >= 6.4) {
+  } else if (nilai >= 7.9) {
     return 15;
-  } else if (totalSaw >= 6.3) {
+  } else if (nilai >= 7.8) {
     return 16;
-  } else if (totalSaw >= 6.2) {
+  } else if (nilai >= 7.7) {
     return 17;
-  } else if (totalSaw >= 6.1) {
+  } else if (nilai >= 7.6) {
     return 18;
-  } else if (totalSaw >= 6.0) {
+  } else if (nilai >= 7.5) {
     return 19;
-  } else if (totalSaw >= 5.9) {
+  } else if (nilai >= 7.4) {
     return 20;
-  } else if (totalSaw >= 5.8) {
+  } else if (nilai >= 7.3) {
     return 21;
-  } else if (totalSaw >= 5.7) {
+  } else if (nilai >= 7.2) {
     return 22;
-  } else if (totalSaw >= 5.6) {
+  } else if (nilai >= 7.1) {
     return 23;
-  } else if (totalSaw >= 5.5) {
+  } else if (nilai >= 7.0) {
     return 24;
-  } else if (totalSaw >= 5.4) {
+  } else if (nilai >= 6.8) {
     return 25;
-  } else if (totalSaw >= 5.3) {
+  } else if (nilai >= 6.7) {
     return 26;
-  } else if (totalSaw >= 5.2) {
+  } else if (nilai >= 6.6) {
     return 27;
-  } else if (totalSaw >= 5.1) {
+  } else if (nilai >= 6.5) {
     return 28;
-  } else if (totalSaw >= 5.0) {
+  } else if (nilai >= 6.4) {
     return 29;
-  } else if (totalSaw <= 4.9) {
+  } else if (nilai <= 6.39) {
     return 30;
   }
 }

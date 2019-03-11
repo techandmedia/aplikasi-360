@@ -12,10 +12,10 @@ import {
 import { getMaxC } from "./c-max-column";
 
 export function dapatkanNilai(users, questions) {
-  const usersForC = users
-  const questionsForC = questions
-  const maxC = getMaxC(usersForC, questionsForC)
-  console.log(maxC)
+  const usersForC = users;
+  const questionsForC = questions;
+  const maxC = getMaxC(usersForC, questionsForC);
+  console.log(maxC);
 
   const nilaiP = [];
   // let P1 = 0;
@@ -142,7 +142,6 @@ export function dapatkanNilai(users, questions) {
       // Cari nilai terbesar dari tiap kolom C1-C7
       // Masukkan ke dalam array
       arrayOffC.push({
-
         // c1: (baseC1 / roleSatu),
         // c2: (baseC2 / totalRole),
         // c3: (baseC3 / totalRole),
@@ -158,42 +157,42 @@ export function dapatkanNilai(users, questions) {
         c5: (baseC5 / totalRole).toFixed(2),
         c6: (baseC6 / totalRole).toFixed(2),
         c7: (baseC7 / totalRole).toFixed(2)
-      })
+      });
 
       // console.log(arrayOffC)
 
       const totalP1 =
-        (baseC1 / roleSatu) * 1 +
-        (baseC2 / totalRole) * 0.4 +
-        (baseC3 / totalRole) * 0.3 +
-        (baseC4 / totalRole) * 1 + //diganti 1
-        (baseC5 / totalRole) * 1 + //diganti 1
-        (baseC6 / totalRole) * 0.4 +
-        (baseC7 / totalRole) * 0.3;
+        ((baseC1 * 2) / roleSatu) * 1 +
+        ((baseC2 * 2) / totalRole) * 0.4 +
+        ((baseC3 * 2) / totalRole) * 0.3 +
+        ((baseC4 * 2) / totalRole) * 1 + //diganti 1
+        ((baseC5 * 2) / totalRole) * 1 + //diganti 1
+        ((baseC6 * 2) / totalRole) * 0.4 +
+        ((baseC7 * 2) / totalRole) * 0.3;
 
       const totalP2 =
-        (baseC2 / totalRole) * 0.3 +
-        (baseC3 / totalRole) * 0.4 +
-        (baseC4 / totalRole) * 0.8 + //diganti 0,8
-        (baseC5 / totalRole) * 0.5 + //diganti 0,5
-        (baseC6 / totalRole) * 0.3 +
-        (baseC7 / totalRole) * 0.4;
+        ((baseC2 * 2) / totalRole) * 0.3 +
+        ((baseC3 * 2) / totalRole) * 0.4 +
+        ((baseC4 * 2) / totalRole) * 0.8 + //diganti 0,8
+        ((baseC5 * 2) / totalRole) * 0.5 + //diganti 0,5
+        ((baseC6 * 2) / totalRole) * 0.3 +
+        ((baseC7 * 2) / totalRole) * 0.4;
 
       const totalP3 =
-        (baseC2 / totalRole) * 0.2 +
-        (baseC3 / totalRole) * 0.2 +
-        (baseC4 / totalRole) * 0.7 + //diganti 0,7
-        (baseC5 / totalRole) * 0.3 + //diganti 0,3
-        (baseC6 / totalRole) * 0.2 +
-        (baseC7 / totalRole) * 0.2;
+        ((baseC2 * 2) / totalRole) * 0.2 +
+        ((baseC3 * 2) / totalRole) * 0.2 +
+        ((baseC4 * 2) / totalRole) * 0.7 + //diganti 0,7
+        ((baseC5 * 2) / totalRole) * 0.3 + //diganti 0,3
+        ((baseC6 * 2) / totalRole) * 0.2 +
+        ((baseC7 * 2) / totalRole) * 0.2;
 
       const totalP4 =
-        (baseC2 / totalRole) * 0.1 +
-        (baseC3 / totalRole) * 0.1 +
-        (baseC4 / totalRole) * 0.5 + //diganti 0,5
-        (baseC5 / totalRole) * 0.2 + //diganti 0,2
-        (baseC6 / totalRole) * 0.1 +
-        (baseC7 / totalRole) * 0.1;
+        ((baseC2 * 2) / totalRole) * 0.1 +
+        ((baseC3 * 2) / totalRole) * 0.1 +
+        ((baseC4 * 2) / totalRole) * 0.5 + //diganti 0,5
+        ((baseC5 * 2) / totalRole) * 0.2 + //diganti 0,2
+        ((baseC6 * 2) / totalRole) * 0.1 +
+        ((baseC7 * 2) / totalRole) * 0.1;
 
       const TotalP = totalP1 + totalP2 + totalP3 + totalP4;
 
@@ -230,12 +229,11 @@ export function dapatkanNilai(users, questions) {
         // c7: totalc7,
         // ranking: cariRangking(TotalRankSaw),
 
-        
         p1: totalP1.toFixed(1),
         p2: totalP2.toFixed(1),
         p3: totalP3.toFixed(1),
         p4: totalP4.toFixed(1),
-        total: TotalP.toFixed(1),
+        total: `${TotalP.toFixed(1)}%`,
         totalSaw: TotalRankSaw.toFixed(2),
         c1: totalc1.toFixed(2),
         c2: totalc2.toFixed(2),
@@ -262,7 +260,7 @@ export function dapatkanNilai(users, questions) {
     pimpinanCounter = 0;
     counterUserQuestions = 0;
 
-    console.log(baseC1/roleSatu)
+    console.log(baseC1 / roleSatu);
     baseC1 = 0;
     baseC2 = 0;
     baseC3 = 0;
